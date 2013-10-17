@@ -10,10 +10,7 @@ $dirs = preg_grep('/^([^.])/', scandir($longURL . "entries"));
 class connector
 {
     var $con;
-    use myMethods, urMethods{
-        urMethods::say insteadof myMethods;
-        myMethods::say as saydone;
-    }
+
     function __construct()
     {
         $this->con=mysqli_connect("localhost","root","");
@@ -30,11 +27,11 @@ class connector
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-        // Create database
-        $sql="CREATE DATABASE $db_name";
+        // SQL to create database
+        $sql="CREATE DATABASE IF NOT EXISTS $db_name";
         if (mysqli_query($this->con,$sql))
         {
-            echo "Database my_db created successfully\n";
+            echo "Database $db_name created successfully\n";
         }
         else
         {
@@ -64,8 +61,6 @@ class connector
         }
 
         // Create table
-        //$sql="CREATE TABLE Persons(FirstName CHAR(30),LastName CHAR(30),Age INT)";
-
         // Execute query
         if (mysqli_query($this->con,$sql))
         {
@@ -115,13 +110,13 @@ class connector
         {
             $res_str = "";
 
-            echo "query successfully executed\n";
+            echo "query successfully executed<br/>";
             $num_rows = mysqli_num_rows($results);
 
             for($i = 0; $i < $num_rows; $i++)
             {
                 $row = mysqli_fetch_array($results);
-                $res_str = $res_str . $row["MAJOR"] . "\t" . $row["SID"] . "\n";
+                $res_str = $res_str . $row["POEM"] . "\t" . $row["TITLE"] .$row["AUTHOR"] . "<br/>";
             }
             return $res_str;
         }
@@ -140,7 +135,7 @@ class connector
         $sql = "DROP DATABASE $db_name";
         if(mysqli_query($this->con, $sql))
         {
-            echo "successfully dropped table\n";
+            echo "successfully dropped table<br/>";
         }
         else{
             echo "no need, DB doesn't exist\n";
@@ -156,7 +151,7 @@ class connector
         $sql = "DROP TABLE $table_name";
         if(mysqli_query($this->con, $sql))
         {
-            echo "successfully dropped table\n";
+            echo "successfully dropped table<br/>";
         }
         else{
             echo "no need, DB doesn't exist\n";
@@ -165,75 +160,55 @@ class connector
 }
 
 $connector = new connector();
-$connector->drop_table("STUDENTS");
-$connector->drop_db("school");
-$connector->create_db("school");
-$connector->choose_db("school");
-$connector->create_table("CREATE TABLE STUDENTS(MAJOR VARCHAR(5), SID INT(10))");
+//$connector->drop_table("LIMERICKS");
+//$connector->drop_db("LIMERICKS");
+$connector->create_db("LIMERICKS");
+$connector->choose_db("LIMERICKS");
+$table_maker = "CREATE TABLE IF NOT EXISTS POEMS(POEM VARCHAR(105), TITLE VARCHAR(30), AUTHOR VARCHAR(30))";
+$connector->create_table($table_maker);
 
+$title = "beardman";
+$author = "Edward Lear";
+$beard = "There was an Old Man with a beard<br/>Who said, 'It is just as I feard!<br/>Two Owls and a Hen,<br/>Four Larks and a Wren,<br/>Have all built their nests in my beard!";
 
-$sql = "INSERT INTO STUDENTS VALUES('comp', 957252343)";
+$sql = "INSERT INTO POEMS VALUES(\"$beard\",\"$title\", \"$author\")";
 $connector->in_query($sql);
-$sql = "INSERT INTO STUDENTS VALUES('comp', 234567890)";
-$connector->in_query($sql);
-$sql = "INSERT INTO STUDENTS VALUES('cs', 765445678)";
-$connector->in_query($sql);
-$sql = "INSERT INTO STUDENTS VALUES('cs', 019283746)";
-$connector->in_query($sql);
+//$sql = "INSERT INTO POEMS VALUES('comp', 234567890)";
+//$connector->in_query($sql);
+//$sql = "INSERT INTO POEMS VALUES('cs', 765445678)";
+//$connector->in_query($sql);
+//$sql = "INSERT INTO POEMS VALUES('cs', 019283746)";
+//$connector->in_query($sql);
 
-$out = "SELECT * FROM STUDENTS";
+$out = "SELECT * FROM POEMS";
 echo $out . "\n";
-
 $res = $connector->out_query($out);
+?>
+<html>
+<head>
+    <title>Looney Limericks DB connector</title>
+</head>
+<body>
+<?php
+
 
 echo $res;
 
 /***** write results to file ******/
-$filename="students.txt";
-
-$filehandle = fopen($filename, "w");
-
-if($filehandle)
-    fwrite($filehandle, $res);
-else
-    echo "error, file not written.\n";
-fclose($filehandle);
+//$filename="poems.txt";
+//
+//$filehandle = fopen($filename, "w");
+//
+//if($filehandle)
+//    fwrite($filehandle, $res);
+//else
+//    echo "error, file not written.\n";
+//fclose($filehandle);
 /***** write results to file ******/
 
-$connector->saydone("done");
-trait myMethods
-{
-    function say($word)
-    {
-        echo $word . "\n";
-    }
-}
 
-trait urMethods
-{
-    function say($word)
-    {
-        echo $word . "zo";
-    }
-}
 
 //$mysqli = new mysqli("localhost", "root", "", "applications");
-
-
-$states = array("CA" => 9998375434, "AZ" => 90000, "OR" =>123123, "KS" =>1233, "TX" => 1231244234);
-echo current($states);
-echo ' ';
-while(next($states))
-{
-    echo current($states) . ' ';
-}
-
-$states["WA"] = 789999;
-
-echo "\n";
-foreach($states as $state => $pop)
-{
-    echo $state . ' population:' . $pop. "\n";
-}
-
 ?>
+</body>
+</html>
