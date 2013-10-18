@@ -5,15 +5,21 @@
 $parent_dir = dirname(__FILE__) . '/..';
 include_once($parent_dir . "/config/config.php");
 
-$dirs = preg_grep('/^([^.])/', scandir($longURL . "entries"));
+
+//$dirs = preg_grep('/^([^.])/', scandir($longURL . "entries"));
 
 class connector
 {
-    var $con;
+    //var $con;
 
     function __construct()
     {
-        $this->con=mysqli_connect("localhost","root","");
+        $this->con = mysqli_connect("localhost","root","");
+    }
+
+    protected function get_connection()
+    {
+        return $this->con;
     }
 
     /**
@@ -31,7 +37,7 @@ class connector
         $sql="CREATE DATABASE IF NOT EXISTS $db_name";
         if (mysqli_query($this->con,$sql))
         {
-            echo "Database $db_name created successfully\n";
+            echo "Database $db_name created successfully<br/>";
         }
         else
         {
@@ -43,9 +49,9 @@ class connector
     function choose_db($db_name)
     {
        if( mysqli_select_db($this->con, $db_name))
-            echo "successfully chosen database $db_name\n";
+            echo "successfully chosen database $db_name<br/>";
        else
-            echo "Unable to select $db_name\n";
+            echo "Unable to select $db_name<br/>";
 
 
     }
@@ -64,7 +70,7 @@ class connector
         // Execute query
         if (mysqli_query($this->con,$sql))
         {
-            echo "Table created successfully\n";
+            echo "Table created successfully<br/>";
         }
         else
         {
@@ -87,11 +93,11 @@ class connector
 
         if(mysqli_query($this->con, $query))
         {
-            echo "query successfully executed\n";
+            echo "input query successfully executed<br/>";
         }
         else
         {
-            echo "query failed to execute";
+            echo "input query failed to execute<br/>";
         }
     }
 
@@ -122,9 +128,11 @@ class connector
         }
         else
         {
-            echo "query failed to execute";
+            echo "query failed to execute<br/>";
         }
     }
+
+
 
     /**
      * @param $db_name
@@ -138,7 +146,31 @@ class connector
             echo "successfully dropped table<br/>";
         }
         else{
-            echo "no need, DB doesn't exist\n";
+            echo "no need to drop DB because the DB doesn't exist<br/>";
+        }
+    }
+
+    function get_rows($table_name)
+    {
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $query = "SELECT COUNT(*) FROM $table_name";
+        if($results = mysqli_query($this->con, $query))
+        {
+            echo "query successfully executed<br/>";
+            $num_rows = mysqli_num_rows($results);
+
+            $row = mysqli_fetch_array($results);
+            $num_rows = $row["0"];
+
+            return $num_rows;
+        }
+        else
+        {
+            echo "count query failed to execute<br/>";
         }
     }
 
@@ -154,61 +186,50 @@ class connector
             echo "successfully dropped table<br/>";
         }
         else{
-            echo "no need, DB doesn't exist\n";
+            echo "no need to drop the table because the table doesn't exist<br/>";
         }
     }
+
+    //create method to get poem from DB
+    /**
+     * @param $con -> the db connection
+     * This function pulls a random poem from the LIMERICKS DB
+     */
+    function random_poem($ctrl, $connector)
+    {
+        global $table_name;
+        $total_rows = $this->get_rows($table_name);
+
+        $index = rand(0, $total_rows-1); //gen rand # between 0 and amt of rows
+        //THIS QUERY SHOULD ONLY RETURN ONE ROW
+        $rand_query = "SELECT * FROM $table_name WHERE ID = $index";
+
+        if($results = mysqli_query($this->con, $rand_query))
+        {
+            $row = mysqli_fetch_array($results);
+            $title = $row['TITLE'];
+            $author = $row['AUTHOR'];
+            $poem = $row['POEM'];
+            $details = ["title" => $title, "author" => $author, "poem" => $poem];
+        }
+        else
+        {
+            $details = ["No poems to show"];
+        }
+        return $details;
+    }
+
+
+    function close_db()
+    {
+        mysqli_close($this->con);
+    }
 }
+//WHAT DOES HE MEAN BY "YOUR RATING" VS "USER RATING"?
+//NEED ANOTHER DB FOR THE 10 MINUTE INTERVAL CHANGE
+include_once($parent_dir . "/models/putter.php");
+include_once($parent_dir . "/models/puller.php");
 
-$connector = new connector();
-//$connector->drop_table("LIMERICKS");
-//$connector->drop_db("LIMERICKS");
-$connector->create_db("LIMERICKS");
-$connector->choose_db("LIMERICKS");
-$table_maker = "CREATE TABLE IF NOT EXISTS POEMS(POEM VARCHAR(105), TITLE VARCHAR(30), AUTHOR VARCHAR(30))";
-$connector->create_table($table_maker);
+//TODO-team figure out how to get input and output into separate/respective subclasses. The problem seems to be the $con object
 
-$title = "beardman";
-$author = "Edward Lear";
-$beard = "There was an Old Man with a beard<br/>Who said, 'It is just as I feard!<br/>Two Owls and a Hen,<br/>Four Larks and a Wren,<br/>Have all built their nests in my beard!";
-
-$sql = "INSERT INTO POEMS VALUES(\"$beard\",\"$title\", \"$author\")";
-$connector->in_query($sql);
-//$sql = "INSERT INTO POEMS VALUES('comp', 234567890)";
-//$connector->in_query($sql);
-//$sql = "INSERT INTO POEMS VALUES('cs', 765445678)";
-//$connector->in_query($sql);
-//$sql = "INSERT INTO POEMS VALUES('cs', 019283746)";
-//$connector->in_query($sql);
-
-$out = "SELECT * FROM POEMS";
-echo $out . "\n";
-$res = $connector->out_query($out);
 ?>
-<html>
-<head>
-    <title>Looney Limericks DB connector</title>
-</head>
-<body>
-<?php
-
-
-echo $res;
-
-/***** write results to file ******/
-//$filename="poems.txt";
-//
-//$filehandle = fopen($filename, "w");
-//
-//if($filehandle)
-//    fwrite($filehandle, $res);
-//else
-//    echo "error, file not written.\n";
-//fclose($filehandle);
-/***** write results to file ******/
-
-
-
-//$mysqli = new mysqli("localhost", "root", "", "applications");
-?>
-</body>
-</html>
