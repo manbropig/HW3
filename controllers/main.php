@@ -34,6 +34,14 @@ class controller
         <u>Top Rated Poems</u>:<br/>
         POEM 1<br/>
         POEM 2<br/>
+        POEM 3<br/>
+        POEM 4<br/>
+        POEM 5<br/>
+        POEM 6<br/>
+        POEM 7<br/>
+        POEM 8<br/>
+        POEM 9<br/>
+        POEM 10<br/>
     </div>
 </div>
 LST;
@@ -73,7 +81,7 @@ LST;
         $this->data["upload_link"] = $upload;
 
         $this->data["poem_lists"] = $this->get_poem_lists();
-        echo "setup complete<br/>";
+
 
         if(!isset($_GET['p']))
             $poem_details = $this->connector->random_poem();
@@ -88,6 +96,7 @@ LST;
         $this->data["poem"] = $poem_details["poem"];
         $this->data["title"] = $poem_details["title"];
         $this->data["author"]= $poem_details["author"];
+        echo "setup complete<br/>";
     }
 
 
@@ -97,18 +106,18 @@ LST;
 //$putter = new data_putter();
 
 $ctrl = new controller();
-$ctrl->setup();
+
 //$title = "My Dog";
 //$author = "Jamie";
 //$poem =
 //"My dog is cool<br/>He knows how to drool<br/>
 //He runs all around<br/>And all over town<br/>
 //And then takes a dip in a pool";
-
+//
 //$sql = "INSERT INTO POEMS VALUES(0, \"$title\", \"$author\",\"$poem\", 0, 0, 0)";
 //$ctrl->connector->in_query($sql);//use model class to insert into DB
 
-
+$ctrl->setup();
 
 
 

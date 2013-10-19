@@ -150,6 +150,10 @@ class connector
         }
     }
 
+    /**
+     * @return array
+     * gets top 10 most recent poems
+     */
     function recent_query()
     {
          
@@ -227,6 +231,11 @@ class connector
          
     }
 
+    /**
+     * @param $table_name
+     * @return mixed
+     * gets the number of rows for a query with results
+     */
     function get_rows($table_name)
     {
          
@@ -286,7 +295,7 @@ class connector
         $index = rand(0, $total_rows-1); //gen rand # between 0 and amt of rows
         //THIS QUERY SHOULD ONLY RETURN ONE ROW
         $rand_query = "SELECT * FROM $table_name WHERE ID = $index";
-
+        echo $index;
         if($results = mysqli_query($this->con, $rand_query))
         {
             $row = mysqli_fetch_array($results);
@@ -303,6 +312,26 @@ class connector
         return $details;
     }
 
+    function input_poem($details)
+    {
+        global $table_name, $BASEURL;
+        $title = $details['title'];
+        $author = $details['author'];
+        $poem = $details['poem'];
+        $id = $this->get_rows($table_name) - 1;
+        $id++;
+
+        $query = "INSERT INTO POEMS VALUES($id,\"$title\", \"$author\", \"$poem\", 0,0,0 )";
+        //echo $query."\n";
+
+        $this->in_query($query);
+        $redirect = '<meta http-equiv="refresh" content="3;url='
+            .$BASEURL.
+            'index.php?view=confirmation&c=usher&conf=true&p='.$id.'"/>';
+
+        return $redirect;
+    }
+
 
     function close_db()
     {
@@ -312,6 +341,7 @@ class connector
 }
 //WHAT DOES HE MEAN BY "YOUR RATING" VS "USER RATING"?
 //NEED ANOTHER DB FOR THE 10 MINUTE INTERVAL CHANGE
+
 include_once($parent_dir . "/models/putter.php");
 include_once($parent_dir . "/models/puller.php");
 

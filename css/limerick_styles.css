@@ -41,6 +41,7 @@ html
 #wrapper
 {
     width:420px;
+    height:200px;
     border:solid;
     padding:5px;
 }

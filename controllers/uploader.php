@@ -27,7 +27,7 @@ onsubmit="return validateForm()">
                 <input class="submit" type="text" name="author"
                 placeholder='Author Name'>
                 <br/>
-                <textarea  id="poem" name = "poem" rows="5" cols="35"
+                <textarea  id="poem" name="poem" rows="5" cols="35"
                 placeholder='Type poem here'></textarea>
                 <br/>
                 <input type="submit" value="Submit">

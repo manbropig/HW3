@@ -22,16 +22,21 @@ class cleaner extends controller
     {
         parent::__construct();
         $this->conn = $this->connector->con;
+        if(isset($_POST['title']) && isset($_POST['author']))
+        {
+            $this->title = $_POST['title'];
+            $this->author = $_POST['author'];
+            $this->poem = $_POST['poem'];
+        }
+
     }
     function add_breaks()
     {
         if(isset($_POST['title']) && isset($_POST['author']))
         {
-            $title = $_POST['title'];
-            $author = $_POST['author'];
-            $poem = nl2br($_POST['poem']);//replaces \n with <br/>
+            $this->poem = nl2br($_POST['poem']);//replaces \n with <br/>
 
-            return $poem;
+            return $this->poem;
         }
     }
 
@@ -40,24 +45,115 @@ class cleaner extends controller
         return $this->conn->real_escape_string($poem);
     }
 
+    function get_last_word($string)
+    {
+        $words = explode(' ', $string);
+        $word = $words[count($words) - 1];
+        $last = preg_replace('/[^a-z]+/i', '', $word);//remove punctuation
+        $last = trim(preg_replace('/\s\s+/', ' ', $last));
+        echo $last."<br/>";
+        return $last;
+    }
 
+    /**
+     * @param $word1
+     * @param $word2
+     * @return bool
+     * compares differences between 2 words, returns true if
+     * they seem close enough to rhyme
+     */
+    function check_rhyme($word1, $word2)
+    {
+        $check = levenshtein(soundex($word1),soundex($word2));
+        if($check <= 4)
+            return true;
+        else
+            return false;
+    }
+
+    /**
+     * USE BEFORE ADDING BREAKS
+     * @param $poem
+     * @return array
+     */
+    function get_lines()
+    {
+        $lines = explode("\n", $this->poem);
+        return $lines;
+    }
+
+    /**
+     * checks rhyme scheme for
+     * A
+     * A
+     * B
+     * B
+     * A
+     */
+    function check_scheme()
+    {
+        $lines = $this->get_lines();
+
+        if(($this->check_rhyme($this->get_last_word($lines[0]),
+            $this->get_last_word($lines[1])))
+            &&
+            ($this->check_rhyme($this->get_last_word($lines[0]),
+                $this->get_last_word($lines[4])))
+            &&
+        ($this->check_rhyme($this->get_last_word($lines[2]),
+            $this->get_last_word($lines[3]))))
+        {
+            echo "Poem matches rhyme scheme<br/>";
+            return true;
+        }
+        else
+            echo "Poem does not match rhyme scheme<br/>";
+        return false;
+    }
+
+    function upload_poem()
+    {
+        global $BASEURL;
+        if($this->check_scheme())
+        {
+            $this->poem = $this->clean($this->add_breaks());
+            //call upload method of DB connector
+            $details = ["title" => $this->title,
+                "author" => $this->author,
+                "poem" => $this->poem];
+
+            $redirect = $this->connector->input_poem($details);
+            //echo "SUCCESS!! <br/>";
+            echo $redirect;
+
+        }
+        else
+        {
+            //redirect to failed page
+
+            echo "failure<br/>";
+            echo '<meta http-equiv="refresh" content="0;url='."$BASEURL".
+                'index.php?view=confirmation&c=usher&conf=false"/>';
+
+        }
+    }
 }
 
-//$cleaner = new cleaner();
+$cleaner = new cleaner();
+$cleaner->upload_poem();
+
 //$str = $cleaner->add_breaks();
-//
-//echo $cleaner->clean($str);
-
-
-echo soundex("hello") ."\n";
-echo soundex("yellow") ."\n";
-echo soundex("mellow") ."\n";
-echo soundex("fellow") ."\n";
-echo soundex("brown") ."\n";
-echo soundex("jamie") ."\n";
-echo soundex("amy") ."\n";
-echo soundex("bland") ."\n";
-echo soundex("brand") ."\n";
+//echo $str;
+/*
+Title: Guy Named Noah
+Author: Louvenia Duncan
+AABBA
+I once knew a guy named Noah
+Mean as the snake called Boa
+Loved him still
+Wasn't God's will
+Sent him back to Samoa
+ */
 
 ?>
 

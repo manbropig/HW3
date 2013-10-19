@@ -50,7 +50,6 @@ class landing_view extends view
         if (title==null || title=="" || title.length > 30)
         {
             alert("Title must be between 1 and 30 characters");
-            poemForm.focus();
             ret = false;
         }
 
@@ -62,7 +61,7 @@ class landing_view extends view
             }
         }
 
-        var poem = document.getElementById("poem").value;
+        var poem = poemForm["poem"].value;//document.getElementById("poem").value;
         var lines = poem.split("\n");
         var lineCount = lines.length;
 
