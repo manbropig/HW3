@@ -20,7 +20,7 @@ abstract class view
     var $top = array();     //list of top 10 rated poems - make display function
     var $random;            //link to pick random poem from DB to be displayed
 
-    abstract function display_poem_lists();
+    //abstract function display_poem_lists();
 }
 
 //$connector = new connector();

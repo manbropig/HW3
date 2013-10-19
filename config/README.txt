@@ -9,5 +9,15 @@ If you are not using XAMPP please change the path for $longURL to the directory 
 
 Then navigate to localhost/HW3/.
 
+
+
+Issues:
+1. add rhyme scheme checking - Jamie
+2. add upload poem functionality - Zohaib
+3. pull top 10 rated poems - Jamie
+4. 
+5. add rating system - Jamie & Zohaib
+6. 
+
 Thanks,
 Jamie and Zohaib

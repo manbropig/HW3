@@ -14,7 +14,15 @@ class connector
 
     function __construct()
     {
-        $this->con = mysqli_connect("localhost","root","");
+        $this->connect();
+    }
+
+    function connect()
+    {
+
+        global $connection, $username, $password, $db_name;
+        $this->con = mysqli_connect($connection,$username,$password);
+        $this->choose_db($db_name);
     }
 
     protected function get_connection()
@@ -22,11 +30,21 @@ class connector
         return $this->con;
     }
 
+    function choose_db($db_name)
+    {
+        if( mysqli_select_db($this->con, $db_name))
+            echo "successfully chosen database $db_name<br/>";
+        else
+            echo "Unable to select $db_name<br/>";
+    }
+
+
     /**
      * Create a database
      */
     function create_db($db_name)
     {
+         
         // Check connection
         if (mysqli_connect_errno())
         {
@@ -43,24 +61,18 @@ class connector
         {
             echo "Error creating database: " . mysqli_error($this->con);
         }
+         
     }
 
 
-    function choose_db($db_name)
-    {
-       if( mysqli_select_db($this->con, $db_name))
-            echo "successfully chosen database $db_name<br/>";
-       else
-            echo "Unable to select $db_name<br/>";
 
-
-    }
 
     /**
      * Create table
      */
     function create_table($sql)
     {
+         
         if (mysqli_connect_errno())
         {
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
@@ -76,6 +88,7 @@ class connector
         {
             echo "Error creating table: " . mysqli_error($this->con);
         }
+         
     }
 
 
@@ -86,6 +99,7 @@ class connector
      */
     function in_query($query)
     {
+         
         if (mysqli_connect_errno())
         {
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
@@ -99,6 +113,7 @@ class connector
         {
             echo "input query failed to execute<br/>";
         }
+         
     }
 
     /**
@@ -107,6 +122,7 @@ class connector
      */
     function out_query($query)
     {
+         
         if (mysqli_connect_errno())
         {
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
@@ -116,7 +132,7 @@ class connector
         {
             $res_str = "";
 
-            echo "query successfully executed<br/>";
+            echo "out query successfully executed<br/>";
             $num_rows = mysqli_num_rows($results);
 
             for($i = 0; $i < $num_rows; $i++)
@@ -124,12 +140,71 @@ class connector
                 $row = mysqli_fetch_array($results);
                 $res_str = $res_str . $row["POEM"] . "\t" . $row["TITLE"] .$row["AUTHOR"] . "<br/>";
             }
+             
             return $res_str;
         }
         else
         {
             echo "query failed to execute<br/>";
+             
         }
+    }
+
+    function recent_query()
+    {
+         
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $recent_query = "SELECT ID, TITLE FROM POEMS ORDER BY ID DESC LIMIT 10";
+        if($results = mysqli_query($this->con, $recent_query))
+        {
+            $recent = array();
+
+            echo "recent query successfully executed<br/>";
+            $num_rows = mysqli_num_rows($results);
+
+            for($i = 0; $i < $num_rows; $i++)
+            {
+                $row = mysqli_fetch_array($results);
+                $recent[$row['ID']] = $row["TITLE"];
+            }
+             
+            return $recent;
+        }
+        else
+        {
+            echo "query failed to execute<br/>";
+             
+        }
+    }
+
+    function get_poem($id)
+    {
+         
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $query = "SELECT * FROM POEMS WHERE ID = \"$id\"";
+
+        if($results = mysqli_query($this->con, $query))
+        {
+            $row = mysqli_fetch_array($results);
+            $title = $row['TITLE'];
+            $author = $row['AUTHOR'];
+            $poem = $row['POEM'];
+            $details = ["title" => $title, "author" => $author, "poem" => $poem];
+        }
+        else
+        {
+            $details = ["No poems to show"];
+        }
+         
+        return $details;
     }
 
 
@@ -140,6 +215,7 @@ class connector
      */
     function drop_db($db_name)
     {
+         
         $sql = "DROP DATABASE $db_name";
         if(mysqli_query($this->con, $sql))
         {
@@ -148,10 +224,12 @@ class connector
         else{
             echo "no need to drop DB because the DB doesn't exist<br/>";
         }
+         
     }
 
     function get_rows($table_name)
     {
+         
         if (mysqli_connect_errno())
         {
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
@@ -160,18 +238,20 @@ class connector
         $query = "SELECT COUNT(*) FROM $table_name";
         if($results = mysqli_query($this->con, $query))
         {
-            echo "query successfully executed<br/>";
+            echo "rows query successfully executed<br/>";
             $num_rows = mysqli_num_rows($results);
 
             $row = mysqli_fetch_array($results);
             $num_rows = $row["0"];
 
+             
             return $num_rows;
         }
         else
         {
             echo "count query failed to execute<br/>";
         }
+         
     }
 
     /**
@@ -180,6 +260,7 @@ class connector
      */
     function drop_table($table_name)
     {
+         
         $sql = "DROP TABLE $table_name";
         if(mysqli_query($this->con, $sql))
         {
@@ -188,6 +269,7 @@ class connector
         else{
             echo "no need to drop the table because the table doesn't exist<br/>";
         }
+         
     }
 
     //create method to get poem from DB
@@ -195,8 +277,9 @@ class connector
      * @param $con -> the db connection
      * This function pulls a random poem from the LIMERICKS DB
      */
-    function random_poem($ctrl, $connector)
+    function random_poem()
     {
+         
         global $table_name;
         $total_rows = $this->get_rows($table_name);
 
@@ -216,13 +299,15 @@ class connector
         {
             $details = ["No poems to show"];
         }
+         
         return $details;
     }
 
 
     function close_db()
     {
-        mysqli_close($this->con);
+        if(mysqli_close($this->con))
+            echo "successfully closed DB<br/>";
     }
 }
 //WHAT DOES HE MEAN BY "YOUR RATING" VS "USER RATING"?

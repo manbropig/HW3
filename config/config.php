@@ -7,4 +7,7 @@ $BASEURL = '/HW3/';
 $longURL = '/Applications/XAMPP/xamppfiles/htdocs' . $BASEURL;
 $db_name = "LIMERICKS";
 $table_name = "POEMS";
+$connection = "localhost";
+$username = "root";
+$password = "";
 ?>

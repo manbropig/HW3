@@ -10,28 +10,107 @@ class controller
 {
     var $data = array(); //data to be echoed in views
 
+    public function __construct()
+    {
+        $this->connector = new connector();
+        //$this->connector->choose_db("LIMERICKS");
+        //$putter = new data_putter();
+    }
+    /**
+     * probably need to pass this 2 arrays or strings, one for each list of 10 poems
+     * $data['top'] and $data['recent']
+     */
+    function get_poem_lists()
+    {
+        $list_string = $this->get_most_recent();
+        //inside of this have a variable for each actual list which is an array of poems and links <br/>
+        $lists = <<<LST
+<div id="wrapper">
+    <div id="leftcol">
+        <u>Most Recent Poems</u>:<br/>
+        $list_string
+    </div>
+    <div id="rightcol">
+        <u>Top Rated Poems</u>:<br/>
+        POEM 1<br/>
+        POEM 2<br/>
+    </div>
+</div>
+LST;
+        return $lists;
+    }
+
+
+
+    function get_most_recent()
+    {
+        //get 10 most recent titles
+        $rec_array = $this->connector->recent_query();
+
+        //create links for each poem page
+        $link = "$BASEURL". "index.php?view=landing&c=main&p=";
+        $recent_list_str = "";
+        foreach($rec_array as $ID => $title)//check title for spaces???
+        {
+            $recent_list_str .= "<a href=\"".$link.$ID."\">$title</a>
+            <br/>";
+        }
+        return $recent_list_str;
+
+        //and add each length to a string separated by <br/>'s
+
+    }
+
+
+
+
+    function setup()
+    {
+        $upload =
+            "<a href="
+            .$BASEURL."index.php?view=upload_page&c=uploader>
+            Upload your own poem!</a>";
+        $this->data["upload_link"] = $upload;
+
+        $this->data["poem_lists"] = $this->get_poem_lists();
+        echo "setup complete<br/>";
+
+        if(!isset($_GET['p']))
+            $poem_details = $this->connector->random_poem();
+        else
+        {
+            $selected = $_GET['p'];
+            //select this poem from the db
+            //set $poem_details in regards to this poem
+            $poem_details = $this->connector->get_poem($selected);
+        }
+
+        $this->data["poem"] = $poem_details["poem"];
+        $this->data["title"] = $poem_details["title"];
+        $this->data["author"]= $poem_details["author"];
+    }
+
 
 }
-$connector = new connector();
-$connector->choose_db("LIMERICKS");
-$putter = new data_putter();
+//$connector = new connector();
+//$connector->choose_db("LIMERICKS");
+//$putter = new data_putter();
+
 $ctrl = new controller();
+$ctrl->setup();
+//$title = "My Dog";
+//$author = "Jamie";
+//$poem =
+//"My dog is cool<br/>He knows how to drool<br/>
+//He runs all around<br/>And all over town<br/>
+//And then takes a dip in a pool";
 
-$title = "My Dog";
-$author = "Jamie";
-$poem =
-    "My dog is cool<br/>He knows how to drool<br/>
-He runs all around<br/>And all over town<br/>
-And then takes a dip in a pool";
+//$sql = "INSERT INTO POEMS VALUES(0, \"$title\", \"$author\",\"$poem\", 0, 0, 0)";
+//$ctrl->connector->in_query($sql);//use model class to insert into DB
 
 
 
 
-$sql = "INSERT INTO POEMS VALUES(0, \"$title\", \"$author\",\"$poem\", 0, 0, 0)";
-$connector->in_query($sql);
-
-$poem_details = $connector->random_poem($ctrl, $connector);
-//echo $poem_details["title"] ."<br/>By ".$poem_details["author"]."<br/>".$poem_details["poem"];
 
 /*
 Title: Guy Named Noah

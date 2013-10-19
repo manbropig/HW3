@@ -8,7 +8,7 @@ class data_putter extends connector
     function __construct()
     {
         $this->con = parent::get_connection();
-        echo $this->con . "yup";
+
     }
 
     function in_query($query)

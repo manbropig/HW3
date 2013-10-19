@@ -18,31 +18,8 @@ class landing_view extends view
     var $featured;
     var $random;            //link to pick random poem from DB to be displayed
 
-    /**
-     * probably need to pass this 2 arrays or strings, one for each list of 10 poems
-     * $data['top'] and $data['recent']
-     */
-    function display_poem_lists()
-    {
-        //inside of this have a variable for each actual list which is an array of poems and links <br/>
-        $lists = <<<LST
-<div id="wrapper">
-    <div id="leftcol">
-        LEFT COL<br/>
-        POEM 1<br/>
-        POEM 2<br/>
-    </div>
-    <div id="rightcol">
-        RIGHT COL<br/>
-        POEM 1<br/>
-        POEM 2<br/>
-    </div>
-</div>
-LST;
-        echo $lists;
-    }
-}
 
+}
 
 $landing = new landing_view();
 
@@ -58,20 +35,24 @@ $landing = new landing_view();
 </head>
 <body>
 
+<div class="upload">
+    <?php echo $ctrl->data["upload_link"];?>
+</div>
 <table class="poem_holder">
     <tr>
-        <th><?php echo $poem_details["title"];?></th>
+        <th><?php echo $ctrl->data["title"];?></th>
     </tr>
     <tr>
-        <th>By <?php echo $poem_details["author"];?></th>
+        <th>By <?php echo $ctrl->data["author"];?></th>
     </tr>
     <tr>
-        <td class="poem"><?php echo $poem_details["poem"];?></td>
+        <td class="poem"><?php echo $ctrl->data["poem"];?></td>
     </tr>
 </table>
 
     <?php
-        $landing->display_poem_lists();
+        echo $ctrl->data["poem_lists"];
     ?>
 </body>
+
 </html>

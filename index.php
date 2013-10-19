@@ -29,6 +29,12 @@ echo '<h1 class="blogTitle">
 $c = "main.php";
 $view = "landing.php";
 
+if(isset($_REQUEST['c']))
+    $c = $_REQUEST['c'].".php";
+
+if(isset($_REQUEST['view']))
+    $view = $_REQUEST['view'].".php";
+
 echo $c . ' ' . $view . ' ' . $e;
 require_once('controllers/' . $c );
 require_once('views/' . $view );
