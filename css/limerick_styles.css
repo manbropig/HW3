@@ -98,4 +98,12 @@ div.enter
 
 }
 
+div.rating_holder
+{
+    background-color: white;
+    width:300px;
+    padding:5px;
+    border:solid;
+}
+
 

@@ -118,11 +118,41 @@ class connector
 
     /**
      * @param $query
+     * Executes a query getting the rating result
+     */
+
+    function rating_out($id)
+    {
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $query = "SELECT * FROM POEMS WHERE ID = \"$id\"";
+
+        if($results = mysqli_query($this->con, $query))
+        {
+            $row = mysqli_fetch_array($results);
+            $userRating = $row['USER_RATING'];
+            $myRating = $row['MY_RATING'];
+            $votes = $row['VOTES'];
+            $details = ["userRating" => $userRating, "myRating" => $myRating, "votes" => $votes];
+        }
+        else
+        {
+
+            $details = ["userRating" => 0, "myRating" => 0, "votes" => 0];
+        }
+                return $details;
+    }
+
+    /**
+     * @param $query
      * Executes a query that yields results
      */
     function out_query($query)
     {
-         
+
         if (mysqli_connect_errno())
         {
             echo "Failed to connect to MySQL: " . mysqli_connect_error();

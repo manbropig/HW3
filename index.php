@@ -35,7 +35,6 @@ if(isset($_REQUEST['c']))
 if(isset($_REQUEST['view']))
     $view = $_REQUEST['view'].".php";
 
-echo $c . ' ' . $view . ' ' . $e;
 require_once('controllers/' . $c );
 require_once('views/' . $view );
 

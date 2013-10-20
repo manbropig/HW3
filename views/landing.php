@@ -7,9 +7,9 @@ CS 174
 $parent_dir = dirname(__FILE__) . '/..';
 include_once($parent_dir . "/models/db_con.php");
 include_once($parent_dir . "/config/config.php");
-include_once($parent_dir . "/views/page.php");
+//include_once($parent_dir . "/views/page.php");
 
-class landing_view extends view
+class landing_view //extends view
 {
     var $title = "Loony Limericks - home";             //title of the page/view
     var $data = array();    //data to be displayed in the view
@@ -21,7 +21,7 @@ class landing_view extends view
 
 }
 
-$landing = new landing_view();
+//$landing = new landing_view();
 
 
 ?>
@@ -49,6 +49,10 @@ $landing = new landing_view();
         <td class="poem"><?php echo $ctrl->data["poem"];?></td>
     </tr>
 </table>
+
+<div class="rating_holder">
+<?php echo $ctrl->data["starImage"];?>
+</div>
 
     <?php
         echo $ctrl->data["poem_lists"];

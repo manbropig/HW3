@@ -44,6 +44,7 @@ LST;
 
     function get_most_recent()
     {
+        global $BASEURL;
         //get 10 most recent titles
         $rec_array = $this->connector->recent_query();
 
@@ -61,11 +62,74 @@ LST;
 
     }
 
+        function get_star_rating($ratings)
+        {
+                //gets average ratings. userRating/votes
+                if($ratings["votes"] == 0)
+                $avg = 0;
+                else
+                $avg = ($ratings["userRating"]/$ratings["votes"]);
 
+                //This function rounds average to nearest half
+                $roundResult = $this->round_to_half($avg);
+
+                //After average set to nearest half this function sets image
+                $starImage = $this->set_star_image($roundResult);
+
+                return $starImage;
+        }
+
+//This function rounds average to nearest half
+function round_to_half($avg)
+{
+        echo "avg: " .$avg;
+
+        $ceil = ceil($avg);
+        echo "ceil: " .$ceil;
+        $half = ($ceil - 0.5);
+        echo "half: " .$half;
+
+        if($avg >= $half + 0.25) return $ceil;
+        else if($avg < $half - 0.25) return floor($avg);
+        else return $half;
+}
+
+
+        function set_star_image($rating)
+        {
+
+                $image = "";
+
+                if($rating == 0.5)
+                $image = "0.5star";
+                else if($rating == 1)
+                $image = "1star";
+                else if($rating == 1.5)
+                $image = "1.5stars";
+                else if($rating == 2)
+                $image = "2stars";
+                else if($rating == 2.5)
+                $image = "2.5stars";
+                else if($rating == 3)
+                $image = "3stars";
+                else if($rating == 3.5)
+                $image = "3.5stars";
+                else if($rating == 4)
+                $image = "4stars";
+                else if($rating == 4.5)
+                $image = "4.5stars";
+                else if($rating == 5)
+                $image = "5stars";
+                else
+                $image = "0stars";
+
+                return "<img border='0' src='images/" .$image.".jpg' alt='star rating' width='100' height='50'>";
+        }
 
 
     function setup()
     {
+        global $BASEURL;
         $upload =
             "<a href="
             .$BASEURL."index.php?view=upload_page&c=uploader>
@@ -76,15 +140,19 @@ LST;
         echo "setup complete<br/>";
 
         if(!isset($_GET['p']))
-            $poem_details = $this->connector->random_poem();
+            {
+                $poem_details = $this->connector->random_poem();
+                $poem_ratings = $this->connector->rating_out(1);
+            }
         else
         {
             $selected = $_GET['p'];
             //select this poem from the db
             //set $poem_details in regards to this poem
             $poem_details = $this->connector->get_poem($selected);
+            $poem_ratings = $this->connector->rating_out($selected);
         }
-
+        $this->data["starImage"] = $this->get_star_rating($poem_ratings);
         $this->data["poem"] = $poem_details["poem"];
         $this->data["title"] = $poem_details["title"];
         $this->data["author"]= $poem_details["author"];
