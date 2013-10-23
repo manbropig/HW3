@@ -20,7 +20,7 @@ CS 174
 <?php
 include_once("config/config.php");
 
-echo '<h1 class="blogTitle">
+echo '<h1 class="siteTitle">
 	<a href='.$BASEURL.' style="text-decoration:none"> LOONEY LIMERICKS</a> <br/>
 	</h1>';
 

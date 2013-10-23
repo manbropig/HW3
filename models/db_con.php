@@ -325,7 +325,7 @@ class connector
         //echo $query."\n";
 
         $this->in_query($query);
-        $redirect = '<meta http-equiv="refresh" content="3;url='
+        $redirect = '<meta http-equiv="refresh" content="0;url='
             .$BASEURL.
             'index.php?view=confirmation&c=usher&conf=true&p='.$id.'"/>';
 

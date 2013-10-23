@@ -35,10 +35,11 @@ onsubmit="return validateForm()">
 POEM;
 
         $this->data["poem_form"] = $poem_input;
+
     }
 }
 $ctrl = new uploader();
-if(isset($_POST['Submit']))
+//if(isset($_POST['Submit']))
 
 /*
 Title: Guy Named Noah
@@ -50,5 +51,7 @@ Loved him still
 Wasn't God's will
 Sent him back to Samoa
  */
+// http://localhost/HW3/controllers/cleaner.php
+// http://localhost/HW3/index.php?view=confirmation&c=usher&conf=true&p=7
 ?>
 

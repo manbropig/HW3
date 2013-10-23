@@ -18,7 +18,20 @@ class landing_view extends view
     var $featured;
     var $random;            //link to pick random poem from DB to be displayed
 
+    function __construct()
+    {
+        $this-setup_page();
+    }
 
+    function setup_page()
+    {
+        $this->title = '<title>Poem Confirmation</title>';
+        $this->data['title'] = $this->title;
+        $this->data['css'] =  '<link rel="stylesheet" type="text/css" href="/HW3/css/limerick_styles.css"/>';
+        $this->data['recent'] = $this->recent;
+        $this->data['top'] = $this->top;
+        $this->data['featured'];
+    }
 }
 
 $landing = new landing_view();

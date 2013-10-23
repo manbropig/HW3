@@ -11,29 +11,42 @@ include_once($parent_dir . "/views/page.php");
 
 class confirmation extends view
 {
-    var $title = "Loony Limericks - home";             //title of the page/view
-    var $data = array();    //data to be displayed in the view
-    var $recent = array();  //list of top 10 recently added poems - make display function
-    var $top = array();     //list of top 10 rated poems - make display function
-    var $featured;
-    var $random;            //link to pick random poem from DB to be displayed
+    function __construct()
+    {
+        $this->setup_data();
+    }
+    function setup_data()
+    {
+        global $message, $redirect;
+        $this->title = '<title>Poem Confirmation</title>';
+        $this->data['css'] =  '<link rel="stylesheet" type="text/css" href="/HW3/css/limerick_styles.css"/>';
+        $this->data['message'] = $message;
+        $this->data['redirect'] = $redirect;
+        $this->data['title'] = $this->title;
+    }
 
+    function display_page()
+    {
+        foreach($this->data as $value)
+        {
+            echo $value;
+        }
+    }
 
 }
-
 //TODO figure out why not redirecting properly
 ?>
 
-
 <body>
 <?php
-echo $message;
-echo $redirect;
+$conf = new confirmation();
+$conf->display_page();
+//echo $conf->data['message'];
+//echo $conf->data['redirect'];
 ?>
 
 <br/>
 Please wait while you're redirected back to the main site.
 
 </body>
-
 
