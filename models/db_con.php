@@ -5,9 +5,6 @@
 $parent_dir = dirname(__FILE__) . '/..';
 include_once($parent_dir . "/config/config.php");
 
-
-//$dirs = preg_grep('/^([^.])/', scandir($longURL . "entries"));
-
 class connector
 {
     //var $con;
@@ -38,7 +35,6 @@ class connector
             echo "Unable to select $db_name<br/>";
     }
 
-
     /**
      * Create a database
      */
@@ -64,9 +60,6 @@ class connector
          
     }
 
-
-
-
     /**
      * Create table
      */
@@ -90,8 +83,6 @@ class connector
         }
          
     }
-
-
 
     /**
      * @param $query
@@ -151,69 +142,6 @@ class connector
     }
 
     /**
-     * @return array
-     * gets top 10 most recent poems
-     */
-    function recent_query()
-    {
-         
-        if (mysqli_connect_errno())
-        {
-            echo "Failed to connect to MySQL: " . mysqli_connect_error();
-        }
-
-        $recent_query = "SELECT ID, TITLE FROM POEMS ORDER BY ID DESC LIMIT 10";
-        if($results = mysqli_query($this->con, $recent_query))
-        {
-            $recent = array();
-
-            echo "recent query successfully executed<br/>";
-            $num_rows = mysqli_num_rows($results);
-
-            for($i = 0; $i < $num_rows; $i++)
-            {
-                $row = mysqli_fetch_array($results);
-                $recent[$row['ID']] = $row["TITLE"];
-            }
-             
-            return $recent;
-        }
-        else
-        {
-            echo "query failed to execute<br/>";
-             
-        }
-    }
-
-    function get_poem($id)
-    {
-         
-        if (mysqli_connect_errno())
-        {
-            echo "Failed to connect to MySQL: " . mysqli_connect_error();
-        }
-
-        $query = "SELECT * FROM POEMS WHERE ID = \"$id\"";
-
-        if($results = mysqli_query($this->con, $query))
-        {
-            $row = mysqli_fetch_array($results);
-            $title = $row['TITLE'];
-            $author = $row['AUTHOR'];
-            $poem = $row['POEM'];
-            $details = ["title" => $title, "author" => $author, "poem" => $poem];
-        }
-        else
-        {
-            $details = ["No poems to show"];
-        }
-         
-        return $details;
-    }
-
-
-
-    /**
      * @param $db_name
      * Drops database
      */
@@ -227,38 +155,6 @@ class connector
         }
         else{
             echo "no need to drop DB because the DB doesn't exist<br/>";
-        }
-         
-    }
-
-    /**
-     * @param $table_name
-     * @return mixed
-     * gets the number of rows for a query with results
-     */
-    function get_rows($table_name)
-    {
-         
-        if (mysqli_connect_errno())
-        {
-            echo "Failed to connect to MySQL: " . mysqli_connect_error();
-        }
-
-        $query = "SELECT COUNT(*) FROM $table_name";
-        if($results = mysqli_query($this->con, $query))
-        {
-            echo "rows query successfully executed<br/>";
-            $num_rows = mysqli_num_rows($results);
-
-            $row = mysqli_fetch_array($results);
-            $num_rows = $row["0"];
-
-             
-            return $num_rows;
-        }
-        else
-        {
-            echo "count query failed to execute<br/>";
         }
          
     }
@@ -281,70 +177,40 @@ class connector
          
     }
 
-    //create method to get poem from DB
-    /**
-     * @param $con -> the db connection
-     * This function pulls a random poem from the LIMERICKS DB
-     */
-    function random_poem()
-    {
-         
-        global $table_name;
-        $total_rows = $this->get_rows($table_name);
-
-        $index = rand(0, $total_rows-1); //gen rand # between 0 and amt of rows
-        //THIS QUERY SHOULD ONLY RETURN ONE ROW
-        $rand_query = "SELECT * FROM $table_name WHERE ID = $index";
-        echo $index;
-        if($results = mysqli_query($this->con, $rand_query))
-        {
-            $row = mysqli_fetch_array($results);
-            $title = $row['TITLE'];
-            $author = $row['AUTHOR'];
-            $poem = $row['POEM'];
-            $details = ["title" => $title, "author" => $author, "poem" => $poem];
-        }
-        else
-        {
-            $details = ["No poems to show"];
-        }
-         
-        return $details;
-    }
-
-    function input_poem($details)
-    {
-        global $table_name, $BASEURL;
-        $title = $details['title'];
-        $author = $details['author'];
-        $poem = $details['poem'];
-        $id = $this->get_rows($table_name) - 1;
-        $id++;
-
-        $query = "INSERT INTO POEMS VALUES($id,\"$title\", \"$author\", \"$poem\", 0,0,0 )";
-        //echo $query."\n";
-
-        $this->in_query($query);
-        $redirect = '<meta http-equiv="refresh" content="0;url='
-            .$BASEURL.
-            'index.php?view=confirmation&c=usher&conf=true&p='.$id.'"/>';
-
-        return $redirect;
-    }
-
 
     function close_db()
     {
         if(mysqli_close($this->con))
             echo "successfully closed DB<br/>";
     }
+
+    function get_rows($table_name)
+    {
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $query = "SELECT COUNT(*) FROM $table_name";
+        if($results = mysqli_query($this->con, $query))
+        {
+            echo "query successfully executed<br/>";
+            $num_rows = mysqli_num_rows($results);
+
+            $row = mysqli_fetch_array($results);
+            $num_rows = $row["0"];
+
+            return $num_rows;
+        }
+        else
+        {
+            echo "count query failed to execute<br/>";
+        }
+    }
 }
-//WHAT DOES HE MEAN BY "YOUR RATING" VS "USER RATING"?
 //NEED ANOTHER DB FOR THE 10 MINUTE INTERVAL CHANGE
 
 include_once($parent_dir . "/models/putter.php");
 include_once($parent_dir . "/models/puller.php");
-
-//TODO-team figure out how to get input and output into separate/respective subclasses. The problem seems to be the $con object
 
 ?>

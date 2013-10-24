@@ -19,22 +19,24 @@ abstract class view
     var $recent = array();  //list of top 10 recently added poems - make display function
     var $top = array();     //list of top 10 rated poems - make display function
     var $random;            //link to pick random poem from DB to be displayed
+    const css = '<link rel="stylesheet" type="text/css" href="/HW3/css/limerick_styles.css"/>';
 
+
+    /**
+     * @return mixed
+     * Gathers data to be displayed for each page into $data array.
+     */
     abstract function setup_page();
-    //abstract function display_poem_lists();
+
+    /**
+     * Since each page must display the 2 poem lists,
+     * this function will display them
+     */
+    function display_poem_lists()
+    {
+        echo $this->data['poem_lists'];
+    }
 }
-
-//$connector = new connector();
-//$connector->choose_db("LIMERICKS");
-//
-
-//
-//$sql = "INSERT INTO POEMS VALUES(\"$beard\",\"$title\", \"$author\")";
-//$connector->in_query($sql);
-//$out = "SELECT * FROM POEMS";
-//$res = $connector->out_query($out);
-
-
 ?>
 
 </html>

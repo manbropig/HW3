@@ -9,27 +9,41 @@ include_once($parent_dir . "/models/db_con.php");
 include_once($parent_dir . "/config/config.php");
 include_once($parent_dir . "/views/page.php");
 
-class landing_view extends view
+class upload_view extends view
 {
-    var $title = "Loony Limericks - home";             //title of the page/view
-    var $data = array();    //data to be displayed in the view
-    var $recent = array();  //list of top 10 recently added poems - make display function
-    var $top = array();     //list of top 10 rated poems - make display function
-    var $featured;
-    var $random;            //link to pick random poem from DB to be displayed
+    function __construct()
+    {
+        $this->setup_page();
+    }
+
+
+    function setup_page()
+    {
+        global $ctrl;
+        $this->title = '<title>Poem Upload</title>';
+        $this->data['title'] = $this->title;
+        $this->data['css'] =  parent::css;
+//        $this->data['recent'] = $this->recent;
+//        $this->data['top'] = $this->top;
+        $this->data["poem_form"] = $ctrl->data["poem_form"];
+        $this->data["poem_lists"] = $ctrl->data["poem_lists"];
+    }
+
 }
+
+$uploader = new upload_view();
 ?>
 
 <!DOCTYPE html  PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
-    <title>Looney Limericks</title>
-    <link rel="stylesheet" type="text/css" href="/HW3/css/limerick_styles.css"/>
+    <?php echo $uploader->data['title'];
+    echo $uploader->data['css'];?>
 </head>
 <body>
 <div class="enter">
-    <?php echo $ctrl->data["poem_form"];?>
+    <?php echo $uploader->data["poem_form"];?>
 </div>
 <script type="text/javascript">
 
@@ -108,7 +122,7 @@ class landing_view extends view
 
 </script>
 
-<div><?php echo $ctrl->data["poem_lists"];?></div>
+<div><?php echo $uploader->data["poem_lists"];?></div>
 </body>
 
 </html>

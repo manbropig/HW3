@@ -7,13 +7,12 @@ class data_putter extends connector
 {
     function __construct()
     {
-        $this->con = parent::get_connection();
+        parent::__construct();
 
     }
 
     function in_query($query)
     {
-        //parent::in_query($query);
         if (mysqli_connect_errno())
         {
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
@@ -26,6 +25,27 @@ class data_putter extends connector
         {
             echo "input query failed to execute<br/>";
         }
+    }
+
+
+    function input_poem($details)
+    {
+        global $table_name, $BASEURL;
+        $title = $details['title'];
+        $author = $details['author'];
+        $poem = $details['poem'];
+        $id = parent::get_rows($table_name) - 1;
+        $id++;
+
+        $query = "INSERT INTO POEMS VALUES($id,\"$title\", \"$author\", \"$poem\", 0,0,0 )";
+        //echo $query."\n";
+
+        $this->in_query($query);
+        $redirect = '<meta http-equiv="refresh" content="0;url='
+            .$BASEURL.
+            'index.php?view=confirmation&c=usher&conf=true&p='.$id.'"/>';
+
+        return $redirect;
     }
 }
 

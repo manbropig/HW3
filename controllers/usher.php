@@ -16,27 +16,44 @@ include_once($parent_dir . "/controllers/main.php");
  * or metaphone() functions in PHP. You can assume the language of submissions is English.
  * If a poem submission is not valid you should give an appropriate error message.
 */
-
-if(isset($_GET['conf']))
+class usher extends controller
 {
-    $status = $_GET['conf'];
-
-    if($status == "true")
+    function __construct()
     {
-        $id = $_GET['id'];
-        $message = "Congratulations!<br/>
-         Your poem has been uploaded to Looney Limericks.";
-        $redirect = '<meta http-equiv="refresh" content="3;url='
-            .$BASEURL.'index.php?view=landing&c=main&p='.$id.'"/>';
+        parent::__construct();
+        $this->message;
+        $this->redirect;
+        $this->setup();
     }
-    else{
-        $message = "I'm sorry, your peom wasn't Looney enough.<br/>
-        You can try a different poem though!";
-        $redirect = '<meta http-equiv="refresh" content="3;url='
-            .$BASEURL.'index.php?view=upload_page&c=uploader"/>';
 
+    function setup()
+    {
+        global $BASEURL;
+        if(isset($_GET['conf']))
+        {
+            $status = $_GET['conf'];
+
+            if($status == "true")
+            {
+                $id = $_GET['id'];
+                $this->message = "Congratulations!<br/>
+     Your poem has been uploaded to Looney Limericks.";
+                $this->redirect = '<meta http-equiv="refresh" content="3;url='
+                    .$BASEURL.'index.php?view=landing&c=main&p='.$id.'"/>';
+            }
+            else{
+                $this->message = "I'm sorry, your peom wasn't Looney enough.<br/>
+    You can try a different poem though!";
+                $this->redirect = '<meta http-equiv="refresh" content="3;url='
+                    .$BASEURL.'index.php?view=upload_page&c=uploader"/>';
+
+            }
+        }
     }
+
 }
+$usher = new usher();
+
 
 
 //$str = $cleaner->add_breaks();

@@ -122,7 +122,7 @@ class cleaner extends controller
                 "author" => $this->author,
                 "poem" => $this->poem];
 
-            $redirect = $this->connector->input_poem($details);
+            $redirect = $this->putter->input_poem($details);
             //echo "SUCCESS!! <br/>";
             echo $redirect;
 

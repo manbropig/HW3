@@ -13,6 +13,8 @@ class controller
     public function __construct()
     {
         $this->connector = new connector();
+        $this->puller = new data_puller();
+        $this->putter = new data_putter();
         //$this->connector->choose_db("LIMERICKS");
         //$putter = new data_putter();
     }
@@ -22,26 +24,19 @@ class controller
      */
     function get_poem_lists()
     {
-        $list_string = $this->get_most_recent();
+        $recent_poems = $this->get_most_recent();
+        $top_poems = $this->get_top_rated(); //currently same as most recent
+
         //inside of this have a variable for each actual list which is an array of poems and links <br/>
         $lists = <<<LST
 <div id="wrapper">
     <div id="leftcol">
         <u>Most Recent Poems</u>:<br/>
-        $list_string
+        $recent_poems
     </div>
     <div id="rightcol">
         <u>Top Rated Poems</u>:<br/>
-        POEM 1<br/>
-        POEM 2<br/>
-        POEM 3<br/>
-        POEM 4<br/>
-        POEM 5<br/>
-        POEM 6<br/>
-        POEM 7<br/>
-        POEM 8<br/>
-        POEM 9<br/>
-        POEM 10<br/>
+        $top_poems
     </div>
 </div>
 LST;
@@ -49,16 +44,20 @@ LST;
     }
 
 
-
+    /**
+     * @return string
+     * Asks model for most recently added poems
+     */
     function get_most_recent()
     {
+        global $BASEURL;
         //get 10 most recent titles
-        $rec_array = $this->connector->recent_query();
+        $rec_array = $this->puller->recent_query();
 
         //create links for each poem page
         $link = "$BASEURL". "index.php?view=landing&c=main&p=";
         $recent_list_str = "";
-        foreach($rec_array as $ID => $title)//check title for spaces???
+        foreach($rec_array as $ID => $title)
         {
             $recent_list_str .= "<a href=\"".$link.$ID."\">$title</a>
             <br/>";
@@ -69,11 +68,29 @@ LST;
 
     }
 
+    function get_top_rated()
+    {
+        global $BASEURL;
+        $top_array = $this->puller->top_query();
+
+        //create links for each poem page
+        $link = "$BASEURL". "index.php?view=landing&c=main&p=";
+        $top_list_str = "";
+        foreach($top_array as $ID => $title)
+        {
+            $top_list_str .= "<a href=\"".$link.$ID."\">$title</a>
+            <br/>";
+        }
+        return $top_list_str;
+
+    }
+
 
 
 
     function setup()
     {
+        global $BASEURL;
         $upload =
             "<a href="
             .$BASEURL."index.php?view=upload_page&c=uploader>
@@ -84,13 +101,13 @@ LST;
 
 
         if(!isset($_GET['p']))
-            $poem_details = $this->connector->random_poem();
+            $poem_details = $this->puller->random_poem();
         else
         {
             $selected = $_GET['p'];
             //select this poem from the db
             //set $poem_details in regards to this poem
-            $poem_details = $this->connector->get_poem($selected);
+            $poem_details = $this->puller->get_poem($selected);
         }
 
         $this->data["poem"] = $poem_details["poem"];
@@ -131,5 +148,76 @@ Loved him still
 Wasn't God's will
 Sent him back to Samoa
  */
+
+/*
+ * marsupials
+By not Jamie
+soup dat sop
+eat dat soup
+and know you just ate
+before its too late
+a marsupial suit
+
+Cool story NO
+By Bro
+No bro no
+Dude... no
+chyah
+chyah
+but no
+
+goob
+By noob
+noob tube
+noob tube
+rump
+jump
+ube lube
+
+yabadaba
+By bill nye
+yabadaba
+abazaba
+the arsonist
+had oddly shaped feet
+yaba
+
+abazaba
+By dave chapelle
+aba zaba
+yaba daba
+gabagoo
+boogyboo
+yabadaba
+
+
+Hungry Hippos
+By Jamie Tahirkheli
+Hungry hippo
+Do the limbo
+Dip down low
+below the pole
+you stupid hippo
+
+When I'm Hungry
+By Jamie Tahirkheli
+When I'm hungry
+I get grumpy
+Sound the alarm
+I can do harm
+I'll eat food that is lumpy
+
+John McKluskey
+By Jamie Tahirkheli
+Mr. McKluskey
+Wasn't too huskey
+wasn't too tall
+Nor too small
+Just a dog of type huskey
+
+ */
+
+
+
 ?>
 

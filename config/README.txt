@@ -15,8 +15,8 @@ Issues:
 1. add rhyme scheme checking - Jamie
 2. add upload poem functionality - Zohaib
 3. pull top 10 rated poems - Jamie
-4. 
-5. add rating system - Jamie & Zohaib
+4. Make everything into class hierarchies - Jamie
+5. add rating system - Zohaib
 6. 
 
 Thanks,

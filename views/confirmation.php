@@ -13,15 +13,15 @@ class confirmation extends view
 {
     function __construct()
     {
-        $this->setup_data();
+        $this->setup_page();
     }
-    function setup_data()
+    function setup_page()
     {
-        global $message, $redirect;
+        global $usher;
         $this->title = '<title>Poem Confirmation</title>';
         $this->data['css'] =  '<link rel="stylesheet" type="text/css" href="/HW3/css/limerick_styles.css"/>';
-        $this->data['message'] = $message;
-        $this->data['redirect'] = $redirect;
+        $this->data['message'] = $usher->message;
+        $this->data['redirect'] = $usher->redirect;
         $this->data['title'] = $this->title;
     }
 
@@ -41,8 +41,6 @@ class confirmation extends view
 <?php
 $conf = new confirmation();
 $conf->display_page();
-//echo $conf->data['message'];
-//echo $conf->data['redirect'];
 ?>
 
 <br/>
