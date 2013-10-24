@@ -37,7 +37,7 @@ class data_putter extends connector
         $id = parent::get_rows($table_name) - 1;
         $id++;
 
-        $query = "INSERT INTO POEMS VALUES($id,\"$title\", \"$author\", \"$poem\", 0,0,0 )";
+        $query = "INSERT INTO POEMS VALUES($id,\"$title\", \"$author\", \"$poem\", 0,0,0,FALSE )";
         //echo $query."\n";
 
         $this->in_query($query);
