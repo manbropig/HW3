@@ -15,9 +15,8 @@ class controller
         $this->connector = new connector();
         $this->puller = new data_puller();
         $this->putter = new data_putter();
-        //$this->connector->choose_db("LIMERICKS");
-        //$putter = new data_putter();
     }
+
     /**
      * probably need to pass this 2 arrays or strings, one for each list of 10 poems
      * $data['top'] and $data['recent']
@@ -85,7 +84,15 @@ LST;
 
     }
 
-
+    function get_rand_link()
+    {
+        global $BASEURL, $table_name;
+        $rows = $this->puller->get_rows($table_name);
+        $id = rand(1, $rows);
+        $link = "$BASEURL". "index.php?view=landing&c=main&p=$id";
+        $clickable = "<a href=\"".$link."\">Choose a random poem</a><br/>";
+        return $clickable;
+    }
 
 
     function setup()
@@ -101,7 +108,7 @@ LST;
 
 
         if(!isset($_GET['p']))
-            $poem_details = $this->puller->random_poem();
+            $poem_details = $this->puller->get_featured_poem();
         else
         {
             $selected = $_GET['p'];
@@ -113,6 +120,7 @@ LST;
         $this->data["poem"] = $poem_details["poem"];
         $this->data["title"] = $poem_details["title"];
         $this->data["author"]= $poem_details["author"];
+        $this->data['rand'] = $this->get_rand_link();
         echo "setup complete<br/>";
     }
 
@@ -136,86 +144,6 @@ $ctrl = new controller();
 
 $ctrl->setup();
 
-
-
-/*
-Title: Guy Named Noah
-Author: Louvenia Duncan
-
-I once knew a guy named Noah
-Mean as the snake called Boa
-Loved him still
-Wasn't God's will
-Sent him back to Samoa
- */
-
-/*
- * marsupials
-By not Jamie
-soup dat sop
-eat dat soup
-and know you just ate
-before its too late
-a marsupial suit
-
-Cool story NO
-By Bro
-No bro no
-Dude... no
-chyah
-chyah
-but no
-
-goob
-By noob
-noob tube
-noob tube
-rump
-jump
-ube lube
-
-yabadaba
-By bill nye
-yabadaba
-abazaba
-the arsonist
-had oddly shaped feet
-yaba
-
-abazaba
-By dave chapelle
-aba zaba
-yaba daba
-gabagoo
-boogyboo
-yabadaba
-
-
-Hungry Hippos
-By Jamie Tahirkheli
-Hungry hippo
-Do the limbo
-Dip down low
-below the pole
-you stupid hippo
-
-When I'm Hungry
-By Jamie Tahirkheli
-When I'm hungry
-I get grumpy
-Sound the alarm
-I can do harm
-I'll eat food that is lumpy
-
-John McKluskey
-By Jamie Tahirkheli
-Mr. McKluskey
-Wasn't too huskey
-wasn't too tall
-Nor too small
-Just a dog of type huskey
-
- */
 
 
 

@@ -36,6 +36,7 @@ class landing_view extends view
         $this->data["author"] = $ctrl->data["author"];
         $this->data["poem"] = $ctrl->data["poem"];
         $this->data["poem_lists"] = $ctrl->data["poem_lists"];
+        $this->data["rand_link"] = $ctrl->data["rand"];
 //        $this->title = '<title>Poem Confirmation</title>';
 //        $this->data['title'] = $this->title;
 //        $this->data['css'] =  '<link rel="stylesheet" type="text/css" href="/HW3/css/limerick_styles.css"/>';
@@ -59,6 +60,9 @@ $landing = new landing_view();
 
 <div class="upload">
     <?php echo $landing->data["upload_link"];?>
+</div>
+<div class="rand">
+   <?php echo $landing->data["rand_link"]; ?>
 </div>
 <table class="poem_holder">
     <tr>

@@ -210,6 +210,7 @@ class connector
 }
 //NEED ANOTHER DB FOR THE 10 MINUTE INTERVAL CHANGE
 
+//KEEP IN THIS ORDER
 include_once($parent_dir . "/models/putter.php");
 include_once($parent_dir . "/models/puller.php");
 

@@ -78,6 +78,13 @@ div.upload
     top:200px;
 }
 
+div.rand
+{
+    position: absolute;
+    right: 105px;
+    top:220px;
+}
+
 div.enter
 {
     width:40%;

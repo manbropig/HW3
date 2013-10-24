@@ -124,7 +124,7 @@ class data_puller extends connector
         global $table_name;
         $total_rows = parent::get_rows($table_name);
 
-        $index = rand(0, $total_rows-1); //gen rand # between 0 and amt of rows
+        $index = rand(1, $total_rows); //gen rand # between 0 and amt of rows
         //THIS QUERY SHOULD ONLY RETURN ONE ROW
         $rand_query = "SELECT * FROM $table_name WHERE ID = $index";
         echo $index;
@@ -143,6 +143,64 @@ class data_puller extends connector
 
         return $details;
     }
+
+    /**
+     * @param $con -> the db connection
+     * This function pulls a random poem from the LIMERICKS DB
+     */
+    function get_featured_poem()
+    {
+        global $table_name;
+        $total_rows = parent::get_rows($table_name);
+
+        $index = rand(1, $total_rows); //gen rand # between 1 and amt of rows
+        //THIS QUERY SHOULD ONLY RETURN ONE ROW
+        $featured_query = "SELECT * FROM $table_name WHERE FEATURED = TRUE";
+        echo $index;
+
+        if($results = mysqli_query($this->con, $featured_query))
+        {
+            $row = mysqli_fetch_array($results);
+            $time = $row['TIME'];
+            if(time() - $time >= 600)
+            {
+                $this->change_featured_poem($row['ID']);
+                //re-query for featured poem
+                $results = mysqli_query($this->con, $featured_query);
+                $row = mysqli_fetch_array($results);
+            }
+            $title = $row['TITLE'];
+            $author = $row['AUTHOR'];
+            $poem = $row['POEM'];
+            $details = ["title" => $title, "author" => $author, "poem" => $poem];
+        }
+        else
+        {
+            $details = ["No poems to show"];
+        }
+
+        return $details;
+    }
+
+    function change_featured_poem($id)
+    {
+        global $table_name;
+        $total_rows = parent::get_rows($table_name);
+        $index = rand(1, $total_rows);
+
+        //ensure don't randomly pick same poem
+        if($index == $id)
+            $index += 1 % $total_rows;
+
+        $changer = new data_putter();
+        //turn currently featured poem to FALSE
+        $changer->unfeature($id);
+        //make new random poem featured with an UPDATE query
+        $changer->feature($index);
+
+        return $this->get_poem($index);
+    }
+
 
     /**
      * @param $id
