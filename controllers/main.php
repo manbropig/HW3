@@ -1,3 +1,95 @@
+<script type='text/javascript'>
+function btnswap()
+{
+        var mybtns = document.getElementsByClassName('btns');
+        for(i=0; i < mybtns.length; i++)
+        {
+                var elem = document.getElementById(mybtns[i].id);
+                elem.src = "images/emptyStar.jpg";
+                elem.onmouseover = btnOver;
+                elem.onmouseout = btnOut;
+
+                function btnOver()
+                {
+                        var lit = document.getElementById(this.id);
+
+                        if(lit.id == "rb1")
+                        {
+                                lit.src = "images/filledStar.jpg";
+                        }
+                        else if(lit.id == "rb2")
+                        {
+                                lit.src = "images/filledStar.jpg";
+                                document.getElementById("rb1").src = "images/filledStar.jpg";
+                        }
+                        else if(lit.id == "rb3")
+                        {
+                                lit.src = "images/filledStar.jpg";
+                                document.getElementById("rb1").src = "images/filledStar.jpg";
+                                document.getElementById("rb2").src = "images/filledStar.jpg";
+                        }
+                        else if(lit.id == "rb4")
+                        {
+                                lit.src = "images/filledStar.jpg";
+                                document.getElementById("rb1").src = "images/filledStar.jpg";
+                                document.getElementById("rb2").src = "images/filledStar.jpg";
+                                document.getElementById("rb3").src = "images/filledStar.jpg";
+                        }
+                        else if(lit.id == "rb5")
+                        {
+                                lit.src = "images/filledStar.jpg";
+                                document.getElementById("rb1").src = "images/filledStar.jpg";
+                                document.getElementById("rb2").src = "images/filledStar.jpg";
+                                document.getElementById("rb3").src = "images/filledStar.jpg";
+                                document.getElementById("rb4").src = "images/filledStar.jpg";
+                        }
+                }
+
+                function btnOut()
+                {
+                        var lit = document.getElementById(this.id);
+
+                        if(lit.id == "rb1")
+                        {
+                                lit.src = "images/emptyStar.jpg";
+                        }
+                        else if(lit.id == "rb2")
+                        {
+                                lit.src = "images/emptyStar.jpg";
+                                document.getElementById("rb1").src = "images/emptyStar.jpg";
+                        }
+                        else if(lit.id == "rb3")
+                        {
+                                lit.src = "images/emptyStar.jpg";
+                                document.getElementById("rb1").src = "images/emptyStar.jpg";
+                                document.getElementById("rb2").src = "images/emptyStar.jpg";
+                        }
+                        else if(lit.id == "rb4")
+                        {
+                                lit.src = "images/emptyStar.jpg";
+                                document.getElementById("rb1").src = "images/emptyStar.jpg";
+                                document.getElementById("rb2").src = "images/emptyStar.jpg";
+                                document.getElementById("rb3").src = "images/emptyStar.jpg";
+                        }
+                        else if(lit.id == "rb5")
+                        {
+                                lit.src = "images/emptyStar.jpg";
+                                document.getElementById("rb1").src = "images/emptyStar.jpg";
+                                document.getElementById("rb2").src = "images/emptyStar.jpg";
+                                document.getElementById("rb3").src = "images/emptyStar.jpg";
+                                document.getElementById("rb4").src = "images/emptyStar.jpg";
+                        }
+                }
+        }
+}
+
+        function ratings(id, num)
+        {
+                //session variable save here.
+                update_rating(id, num);
+        }
+</script>
+
 <?php
 // Jamie Tahirkheli - 006547398
 // Zohaib Khan - 007673133
@@ -123,9 +215,25 @@ function round_to_half($avg)
                 else
                 $image = "0stars";
 
-                return "<img border='0' src='images/" .$image.".jpg' alt='star rating' width='100' height='50'>";
+                return "<img border='0' src='images/".$image.".jpg' alt='star rating' width='120' height='40'>";
         }
 
+        function set_clickable_star_image()
+        {
+               return 
+<<<STAR
+<input type = "image" class="btns" id="rb1" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="1" onclick="ratings(1);">
+    <input type="hidden" name="choice" width="20" height="40" id="1" value="1">
+<input type = "image" class="btns" id="rb2" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="2" onclick="ratings(2);">
+    <input type="hidden" name="choice" width="20" height="40" id="2" value="2">
+<input type = "image" class="btns" id="rb3" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="3" onclick="ratings(3);">
+    <input type="hidden" name="choice" width="20" height="40" id="3" value="3">
+<input type = "image" class="btns" id="rb4" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="4" width="20" height="40" onclick="ratings(4);">
+    <input type="hidden" name="choice" id="4" value="4">
+<input type = "image" class="btns" id="rb5" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="5" onclick="ratings(5);">
+    <input type="hidden" name="choice" width="20" height="40" id="5" value="5">
+STAR;
+        }
 
     function setup()
     {
@@ -152,6 +260,7 @@ function round_to_half($avg)
             $poem_details = $this->connector->get_poem($selected);
             $poem_ratings = $this->connector->rating_out($selected);
         }
+        $this->data["clickableStarImage"] = $this->set_clickable_star_image();
         $this->data["starImage"] = $this->get_star_rating($poem_ratings);
         $this->data["poem"] = $poem_details["poem"];
         $this->data["title"] = $poem_details["title"];

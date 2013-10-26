@@ -51,7 +51,11 @@ class landing_view //extends view
 </table>
 
 <div class="rating_holder">
+Average Rating: <br>
 <?php echo $ctrl->data["starImage"];?>
+<br>
+Your Rating: <br>
+<?php echo $ctrl->data["clickableStarImage"];?>
 </div>
 
     <?php

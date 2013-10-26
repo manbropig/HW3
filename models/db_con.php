@@ -147,6 +147,36 @@ class connector
     }
 
     /**
+
+     * @param $query
+     * Executes a query getting the rating result
+     */
+
+    function update_rating($id, $num)
+    {
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $rating_info = rating_out($id);
+
+        $added_rating = $rating_info["userRating"] + $num;
+        $added_votes = $rating_info["votes"] + 1;
+
+        $updateQuery = "UPDATE poems SET USER_RATING = \"$added_rating\", VOTES = \"$added_votes\" WHERE ID = \"$id\"";
+
+        if(mysqli_query($this->con, $updateQuery))
+        {
+            echo "input query successfully executed<br/>";
+        }
+        else
+        {
+            echo "input query failed to execute<br/>";
+        }
+    }
+
+    /**
      * @param $query
      * Executes a query that yields results
      */
