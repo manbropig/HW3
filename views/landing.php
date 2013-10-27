@@ -75,6 +75,13 @@ $landing = new landing_view();
         <td class="poem"><?php echo $landing->data["poem"];?></td>
     </tr>
 </table>
+<div class="rating_holder">
+    Average Rating: <br>
+    <?php echo $ctrl->data["starImage"];?>
+    <br>
+    Your Rating: <br>
+    <?php echo $ctrl->data["clickableStarImage"];?>
+</div>
 
     <?php
         echo $landing->data["poem_lists"];

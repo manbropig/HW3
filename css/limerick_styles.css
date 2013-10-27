@@ -104,5 +104,13 @@ div.enter
     margin:0 auto;
 
 }
+div.rating_holder
+{
+    background-color: white;
+    width:120px;
+    height:125px;
+    padding:5px;
+    border:solid;
+}
 
 
