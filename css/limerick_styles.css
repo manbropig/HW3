@@ -1,4 +1,4 @@
-.blogTitle
+.siteTitle
 {
 	font-family: "Rockwell Extra Bold", "Rockwell Bold", monospace;
 	font-size: 42px;
@@ -13,7 +13,6 @@
 #warning
 {
 	color:#ff0000;
-	
 }
 
 h2
@@ -41,6 +40,7 @@ html
 #wrapper
 {
     width:420px;
+    height:200px;
     border:solid;
     padding:5px;
 }
@@ -78,6 +78,13 @@ div.upload
     top:200px;
 }
 
+div.rand
+{
+    position: absolute;
+    right: 105px;
+    top:220px;
+}
+
 div.enter
 {
     width:40%;
@@ -97,7 +104,6 @@ div.enter
     margin:0 auto;
 
 }
-
 div.rating_holder
 {
     background-color: white;
@@ -106,4 +112,5 @@ div.rating_holder
     padding:5px;
     border:solid;
 }
+
 

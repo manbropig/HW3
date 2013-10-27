@@ -20,7 +20,7 @@ CS 174
 <?php
 include_once("config/config.php");
 
-echo '<h1 class="blogTitle">
+echo '<h1 class="siteTitle">
 	<a href='.$BASEURL.' style="text-decoration:none"> LOONEY LIMERICKS</a> <br/>
 	</h1>';
 
@@ -35,6 +35,7 @@ if(isset($_REQUEST['c']))
 if(isset($_REQUEST['view']))
     $view = $_REQUEST['view'].".php";
 
+echo $c . ' ' . $view;
 require_once('controllers/' . $c );
 require_once('views/' . $view );
 

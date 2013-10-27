@@ -7,9 +7,9 @@ CS 174
 $parent_dir = dirname(__FILE__) . '/..';
 include_once($parent_dir . "/models/db_con.php");
 include_once($parent_dir . "/config/config.php");
-//include_once($parent_dir . "/views/page.php");
+include_once($parent_dir . "/views/page.php");
 
-class landing_view //extends view
+class landing_view extends view
 {
     var $title = "Loony Limericks - home";             //title of the page/view
     var $data = array();    //data to be displayed in the view
@@ -18,12 +18,35 @@ class landing_view //extends view
     var $featured;
     var $random;            //link to pick random poem from DB to be displayed
 
+    function __construct()
+    {
+        $this->setup_page();
+    }
 
+    function setup_page()
+    {
+        global $ctrl;
+        $this->title = $ctrl->data['title'];//'<title>Poem Confirmation</title>';
+        $this->data['title'] = $this->title;
+        $this->data['css'] =  parent::css;
+        $this->data['recent'] = $this->recent;
+        $this->data['top'] = $this->top;
+        $this->data['featured'];
+        $this->data["upload_link"] = $ctrl->data["upload_link"];
+        $this->data["author"] = $ctrl->data["author"];
+        $this->data["poem"] = $ctrl->data["poem"];
+        $this->data["poem_lists"] = $ctrl->data["poem_lists"];
+        $this->data["rand_link"] = $ctrl->data["rand"];
+//        $this->title = '<title>Poem Confirmation</title>';
+//        $this->data['title'] = $this->title;
+//        $this->data['css'] =  '<link rel="stylesheet" type="text/css" href="/HW3/css/limerick_styles.css"/>';
+//        $this->data['recent'] = $this->recent;
+//        $this->data['top'] = $this->top;
+//        $this->data['featured'];
+    }
 }
 
-//$landing = new landing_view();
-
-
+$landing = new landing_view();
 ?>
 
 <!DOCTYPE html  PUBLIC "-//W3C//DTD XHTML 1.1//EN"
@@ -36,30 +59,32 @@ class landing_view //extends view
 <body>
 
 <div class="upload">
-    <?php echo $ctrl->data["upload_link"];?>
+    <?php echo $landing->data["upload_link"];?>
+</div>
+<div class="rand">
+   <?php echo $landing->data["rand_link"]; ?>
 </div>
 <table class="poem_holder">
     <tr>
-        <th><?php echo $ctrl->data["title"];?></th>
+        <th><?php echo $landing->data["title"];?></th>
     </tr>
     <tr>
-        <th>By <?php echo $ctrl->data["author"];?></th>
+        <th>By <?php echo $landing->data["author"];?></th>
     </tr>
     <tr>
-        <td class="poem"><?php echo $ctrl->data["poem"];?></td>
+        <td class="poem"><?php echo $landing->data["poem"];?></td>
     </tr>
 </table>
-
 <div class="rating_holder">
-Average Rating: <br>
-<?php echo $ctrl->data["starImage"];?>
-<br>
-Your Rating: <br>
-<?php echo $ctrl->data["clickableStarImage"];?>
+    Average Rating: <br>
+    <?php echo $ctrl->data["starImage"];?>
+    <br>
+    Your Rating: <br>
+    <?php echo $ctrl->data["clickableStarImage"];?>
 </div>
 
     <?php
-        echo $ctrl->data["poem_lists"];
+        echo $landing->data["poem_lists"];
     ?>
 </body>
 

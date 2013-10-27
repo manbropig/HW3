@@ -4,7 +4,7 @@
 // CS 174
 $BASEURL = '/HW3/';
 
-$longURL = 'C:/xampp/htdocs' . $BASEURL;
+$longURL = '/Applications/XAMPP/xamppfiles/htdocs' . $BASEURL;
 $db_name = "LIMERICKS";
 $table_name = "POEMS";
 $connection = "localhost";
