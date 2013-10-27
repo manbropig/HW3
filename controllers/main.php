@@ -86,7 +86,8 @@ function btnswap()
         function ratings(id, num)
         {
                 //session variable save here.
-                update_rating(id, num);
+                //php update_rating(id, num);
+                //$this->data["starImage"] = $this->get_star_rating($poem_ratings);
         }
 </script>
 
@@ -218,19 +219,19 @@ function round_to_half($avg)
                 return "<img border='0' src='images/".$image.".jpg' alt='star rating' width='120' height='40'>";
         }
 
-        function set_clickable_star_image()
+        function set_clickable_star_image($selected)
         {
                return 
 <<<STAR
-<input type = "image" class="btns" id="rb1" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="1" onclick="ratings(1);">
+<input type = "image" class="btns" id="rb1" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="1" onclick="ratings($selected, 1);">
     <input type="hidden" name="choice" width="20" height="40" id="1" value="1">
-<input type = "image" class="btns" id="rb2" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="2" onclick="ratings(2);">
+<input type = "image" class="btns" id="rb2" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="2" onclick="ratings($selected, 2);">
     <input type="hidden" name="choice" width="20" height="40" id="2" value="2">
-<input type = "image" class="btns" id="rb3" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="3" onclick="ratings(3);">
+<input type = "image" class="btns" id="rb3" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="3" onclick="ratings($selected, 3);">
     <input type="hidden" name="choice" width="20" height="40" id="3" value="3">
-<input type = "image" class="btns" id="rb4" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="4" width="20" height="40" onclick="ratings(4);">
-    <input type="hidden" name="choice" id="4" value="4">
-<input type = "image" class="btns" id="rb5" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="5" onclick="ratings(5);">
+<input type = "image" class="btns" id="rb4" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="4" onclick="ratings($selected, 4);">
+    <input type="hidden" name="choice" width="20" height="40" id="4" value="4">
+<input type = "image" class="btns" id="rb5" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="5" onclick="ratings($selected, 5);">
     <input type="hidden" name="choice" width="20" height="40" id="5" value="5">
 STAR;
         }
@@ -251,6 +252,7 @@ STAR;
             {
                 $poem_details = $this->connector->random_poem();
                 $poem_ratings = $this->connector->rating_out(1);
+                $selected = 1;
             }
         else
         {
@@ -260,7 +262,7 @@ STAR;
             $poem_details = $this->connector->get_poem($selected);
             $poem_ratings = $this->connector->rating_out($selected);
         }
-        $this->data["clickableStarImage"] = $this->set_clickable_star_image();
+        $this->data["clickableStarImage"] = $this->set_clickable_star_image($selected);
         $this->data["starImage"] = $this->get_star_rating($poem_ratings);
         $this->data["poem"] = $poem_details["poem"];
         $this->data["title"] = $poem_details["title"];
