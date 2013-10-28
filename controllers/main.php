@@ -210,7 +210,7 @@ LST;
             $selected = $_GET['p'];
             //select this poem from the db
             //set $poem_details in regards to this poem
-            $poem_details = $this->connector->get_poem($selected);
+            $poem_details = $this->puller->get_poem($selected);
             $poem_ratings = $this->connector->rating_out($selected);
         }
 
