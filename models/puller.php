@@ -27,7 +27,6 @@ class data_puller extends connector
         {
             $res_str = "";
 
-            echo "query successfully executed<br/>";
             $num_rows = mysqli_num_rows($results);
 
             for($i = 0; $i < $num_rows; $i++)
@@ -58,12 +57,11 @@ class data_puller extends connector
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-        $recent_query = "SELECT ID, TITLE FROM POEMS ORDER BY ID DESC LIMIT 10";
+        $recent_query = "SELECT ID, TITLE FROM POEMS ORDER BY RATING DESC LIMIT 10";
         if($results = mysqli_query($this->con, $recent_query))
         {
             $recent = array();
 
-            echo "recent query successfully executed<br/>";
             $num_rows = mysqli_num_rows($results);
 
             for($i = 0; $i < $num_rows; $i++)
@@ -97,8 +95,6 @@ class data_puller extends connector
         if($results = mysqli_query($this->con, $recent_query))
         {
             $recent = array();
-
-            echo "recent query successfully executed<br/>";
             $num_rows = mysqli_num_rows($results);
 
             for($i = 0; $i < $num_rows; $i++)
@@ -127,7 +123,6 @@ class data_puller extends connector
         $index = rand(1, $total_rows); //gen rand # between 0 and amt of rows
         //THIS QUERY SHOULD ONLY RETURN ONE ROW
         $rand_query = "SELECT * FROM $table_name WHERE ID = $index";
-        echo $index;
         if($results = mysqli_query($this->con, $rand_query))
         {
             $row = mysqli_fetch_array($results);
@@ -156,7 +151,6 @@ class data_puller extends connector
         $index = rand(1, $total_rows); //gen rand # between 1 and amt of rows
         //THIS QUERY SHOULD ONLY RETURN ONE ROW
         $featured_query = "SELECT * FROM $table_name WHERE FEATURED = TRUE";
-        echo $index;
 
         if($results = mysqli_query($this->con, $featured_query))
         {
@@ -224,7 +218,8 @@ class data_puller extends connector
             $title = $row['TITLE'];
             $author = $row['AUTHOR'];
             $poem = $row['POEM'];
-            $details = ["title" => $title, "author" => $author, "poem" => $poem];
+            $details = ["title" => $title,
+                "author" => $author, "poem" => $poem];
         }
         else
         {

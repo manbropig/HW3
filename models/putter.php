@@ -17,14 +17,8 @@ class data_putter extends connector
         {
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
-        if(mysqli_query($this->con, $query))
-        {
-            echo "input query successfully executed<br/>";
-        }
-        else
-        {
-            echo "input query failed to execute<br/>";
-        }
+        mysqli_query($this->con, $query);
+
     }
 
 
@@ -40,10 +34,9 @@ class data_putter extends connector
         $query =
             "INSERT INTO POEMS VALUES(0,\"$title\",
             \"$author\", \"$poem\", 0,0,0,FALSE, null )";
-        //echo $query."\n";
 
         $this->in_query($query);
-        echo $id;
+
         $redirect = '<meta http-equiv="refresh" content="3;url='
             .$BASEURL.
             "index.php?view=confirmation&c=usher&conf=true&p=$id\"/>";

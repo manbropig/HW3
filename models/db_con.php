@@ -29,10 +29,8 @@ class connector
 
     function choose_db($db_name)
     {
-        if( mysqli_select_db($this->con, $db_name))
-            echo "successfully chosen database $db_name<br/>";
-        else
-            echo "Unable to select $db_name<br/>";
+        mysqli_select_db($this->con, $db_name);
+
     }
 
     /**
@@ -49,14 +47,7 @@ class connector
 
         // SQL to create database
         $sql="CREATE DATABASE IF NOT EXISTS $db_name";
-        if (mysqli_query($this->con,$sql))
-        {
-            echo "Database $db_name created successfully<br/>";
-        }
-        else
-        {
-            echo "Error creating database: " . mysqli_error($this->con);
-        }
+        mysqli_query($this->con,$sql);
          
     }
 
@@ -73,14 +64,8 @@ class connector
 
         // Create table
         // Execute query
-        if (mysqli_query($this->con,$sql))
-        {
-            echo "Table created successfully<br/>";
-        }
-        else
-        {
-            echo "Error creating table: " . mysqli_error($this->con);
-        }
+        mysqli_query($this->con,$sql);
+
          
     }
 
@@ -96,15 +81,8 @@ class connector
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-        if(mysqli_query($this->con, $query))
-        {
-            echo "input query successfully executed<br/>";
-        }
-        else
-        {
-            echo "input query failed to execute<br/>";
-        }
-         
+        mysqli_query($this->con, $query);
+
     }
 
     /**
@@ -126,7 +104,8 @@ class connector
             $row = mysqli_fetch_array($results);
             $rating = $row['RATING_SUM'];
             $votes = $row['VOTES'];
-            $details = ["userRating" => $rating, "votes" => $votes, "id" => $id];
+            $details = ["userRating" => $rating,
+                "votes" => $votes, "id" => $id];
         }
         else
         {
@@ -149,17 +128,15 @@ class connector
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-        $query = "SELECT ID FROM POEMS WHERE FEATURED = 1";
+        $query = "SELECT ID FROM POEMS WHERE FEATURED = 1";//true
 
         if($results = mysqli_query($this->con, $query))
         {
             $row = mysqli_fetch_array($results);
             $id = $row["ID"];
-                echo "poem rating UPDATED";
         }
         else
         {
-                echo "poem rating NOT UPDATED";
             $id = 0;
         }
         return $id;
@@ -183,16 +160,11 @@ class connector
         $added_rating = $rating_info["userRating"] + $num;
         $added_votes = $rating_info["votes"] + 1;
 
-        $updateQuery = "UPDATE poems SET RATING_SUM = \"$added_rating\", VOTES = \"$added_votes\" WHERE ID = \"$id\"";
+        $updateQuery =
+            "UPDATE poems SET RATING_SUM = \"$added_rating\",
+            VOTES = \"$added_votes\" WHERE ID = \"$id\"";
 
-        if(mysqli_query($this->con, $updateQuery))
-        {
-            echo "input query successfully executed<br/>";
-        }
-        else
-        {
-            echo "input query failed to execute<br/>";
-        }
+        mysqli_query($this->con, $updateQuery);
     }
 
 
@@ -212,13 +184,13 @@ class connector
         {
             $res_str = "";
 
-            echo "out query successfully executed<br/>";
             $num_rows = mysqli_num_rows($results);
 
             for($i = 0; $i < $num_rows; $i++)
             {
                 $row = mysqli_fetch_array($results);
-                $res_str = $res_str . $row["POEM"] . "\t" . $row["TITLE"] .$row["AUTHOR"] . "<br/>";
+                $res_str = $res_str . $row["POEM"] . "\t" .
+                    $row["TITLE"] .$row["AUTHOR"] . "<br/>";
             }
              
             return $res_str;
@@ -238,13 +210,7 @@ class connector
     {
          
         $sql = "DROP DATABASE $db_name";
-        if(mysqli_query($this->con, $sql))
-        {
-            echo "successfully dropped table<br/>";
-        }
-        else{
-            echo "no need to drop DB because the DB doesn't exist<br/>";
-        }
+        mysqli_query($this->con, $sql);
          
     }
 
@@ -256,21 +222,13 @@ class connector
     {
          
         $sql = "DROP TABLE $table_name";
-        if(mysqli_query($this->con, $sql))
-        {
-            echo "successfully dropped table<br/>";
-        }
-        else{
-            echo "no need to drop the table because the table doesn't exist<br/>";
-        }
-         
+        mysqli_query($this->con, $sql);
     }
 
 
     function close_db()
     {
-        if(mysqli_close($this->con))
-            echo "successfully closed DB<br/>";
+        mysqli_close($this->con);
     }
 
     function get_rows($table_name)
@@ -283,7 +241,6 @@ class connector
         $query = "SELECT COUNT(*) FROM $table_name";
         if($results = mysqli_query($this->con, $query))
         {
-            echo "query successfully executed<br/>";
             $num_rows = mysqli_num_rows($results);
 
             $row = mysqli_fetch_array($results);

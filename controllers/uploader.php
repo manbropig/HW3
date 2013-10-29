@@ -39,19 +39,5 @@ POEM;
     }
 }
 $ctrl = new uploader();
-//if(isset($_POST['Submit']))
-
-/*
-Title: Guy Named Noah
-Author: Louvenia Duncan
-
-I once knew a guy named Noah
-Mean as the snake called Boa
-Loved him still
-Wasn't God's will
-Sent him back to Samoa
- */
-// http://localhost/HW3/controllers/cleaner.php
-// http://localhost/HW3/index.php?view=confirmation&c=usher&conf=true&p=7
 ?>
 

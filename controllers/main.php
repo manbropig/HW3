@@ -15,33 +15,33 @@
 
                 if(lit.id == "rb1")
                 {
-                    lit.src = "images/filledStar.jpg";
+                  lit.src = "images/filledStar.jpg";
                 }
                 else if(lit.id == "rb2")
                 {
-                    lit.src = "images/filledStar.jpg";
-                    document.getElementById("rb1").src = "images/filledStar.jpg";
+                  lit.src = "images/filledStar.jpg";
+                  document.getElementById("rb1").src = "images/filledStar.jpg";
                 }
                 else if(lit.id == "rb3")
                 {
-                    lit.src = "images/filledStar.jpg";
-                    document.getElementById("rb1").src = "images/filledStar.jpg";
-                    document.getElementById("rb2").src = "images/filledStar.jpg";
+                  lit.src = "images/filledStar.jpg";
+                  document.getElementById("rb1").src = "images/filledStar.jpg";
+                  document.getElementById("rb2").src = "images/filledStar.jpg";
                 }
                 else if(lit.id == "rb4")
                 {
-                    lit.src = "images/filledStar.jpg";
-                    document.getElementById("rb1").src = "images/filledStar.jpg";
-                    document.getElementById("rb2").src = "images/filledStar.jpg";
-                    document.getElementById("rb3").src = "images/filledStar.jpg";
+                  lit.src = "images/filledStar.jpg";
+                  document.getElementById("rb1").src = "images/filledStar.jpg";
+                  document.getElementById("rb2").src = "images/filledStar.jpg";
+                  document.getElementById("rb3").src = "images/filledStar.jpg";
                 }
                 else if(lit.id == "rb5")
                 {
-                    lit.src = "images/filledStar.jpg";
-                    document.getElementById("rb1").src = "images/filledStar.jpg";
-                    document.getElementById("rb2").src = "images/filledStar.jpg";
-                    document.getElementById("rb3").src = "images/filledStar.jpg";
-                    document.getElementById("rb4").src = "images/filledStar.jpg";
+                  lit.src = "images/filledStar.jpg";
+                  document.getElementById("rb1").src = "images/filledStar.jpg";
+                  document.getElementById("rb2").src = "images/filledStar.jpg";
+                  document.getElementById("rb3").src = "images/filledStar.jpg";
+                  document.getElementById("rb4").src = "images/filledStar.jpg";
                 }
             }
 
@@ -51,33 +51,33 @@
 
                 if(lit.id == "rb1")
                 {
-                    lit.src = "images/emptyStar.jpg";
+                   lit.src = "images/emptyStar.jpg";
                 }
                 else if(lit.id == "rb2")
                 {
-                    lit.src = "images/emptyStar.jpg";
-                    document.getElementById("rb1").src = "images/emptyStar.jpg";
+                   lit.src = "images/emptyStar.jpg";
+                   document.getElementById("rb1").src = "images/emptyStar.jpg";
                 }
                 else if(lit.id == "rb3")
                 {
-                    lit.src = "images/emptyStar.jpg";
-                    document.getElementById("rb1").src = "images/emptyStar.jpg";
-                    document.getElementById("rb2").src = "images/emptyStar.jpg";
+                   lit.src = "images/emptyStar.jpg";
+                   document.getElementById("rb1").src = "images/emptyStar.jpg";
+                   document.getElementById("rb2").src = "images/emptyStar.jpg";
                 }
                 else if(lit.id == "rb4")
                 {
-                    lit.src = "images/emptyStar.jpg";
-                    document.getElementById("rb1").src = "images/emptyStar.jpg";
-                    document.getElementById("rb2").src = "images/emptyStar.jpg";
-                    document.getElementById("rb3").src = "images/emptyStar.jpg";
+                   lit.src = "images/emptyStar.jpg";
+                   document.getElementById("rb1").src = "images/emptyStar.jpg";
+                   document.getElementById("rb2").src = "images/emptyStar.jpg";
+                   document.getElementById("rb3").src = "images/emptyStar.jpg";
                 }
                 else if(lit.id == "rb5")
                 {
-                    lit.src = "images/emptyStar.jpg";
-                    document.getElementById("rb1").src = "images/emptyStar.jpg";
-                    document.getElementById("rb2").src = "images/emptyStar.jpg";
-                    document.getElementById("rb3").src = "images/emptyStar.jpg";
-                    document.getElementById("rb4").src = "images/emptyStar.jpg";
+                   lit.src = "images/emptyStar.jpg";
+                   document.getElementById("rb1").src = "images/emptyStar.jpg";
+                   document.getElementById("rb2").src = "images/emptyStar.jpg";
+                   document.getElementById("rb3").src = "images/emptyStar.jpg";
+                   document.getElementById("rb4").src = "images/emptyStar.jpg";
                 }
             }
         }
@@ -191,7 +191,7 @@ LST;
             Upload your own poem!</a>";
         $this->data["upload_link"] = $upload;
 
-        $this->data["poem_lists"] = $this->get_poem_lists();
+
 
 
         if(!isset($_GET['p']))
@@ -209,13 +209,14 @@ LST;
             $poem_ratings = $this->connector->rating_out($selected);
         }
 
-        $this->data["clickableStarImage"] = $this->set_clickable_star_image($selected);
+        $this->data["clickableStarImage"] =
+            $this->set_clickable_star_image($selected);
         $this->data["starImage"] = $this->get_star_rating($poem_ratings);
+        $this->data["poem_lists"] = $this->get_poem_lists();
         $this->data["poem"] = $poem_details["poem"];
         $this->data["title"] = $poem_details["title"];
         $this->data["author"]= $poem_details["author"];
         $this->data['rand'] = $this->get_rand_link();
-        echo "setup complete<br/>";
     }
 
 
@@ -232,8 +233,9 @@ LST;
         $roundResult = $this->round_to_half($avg);
 
         $id = $ratings["id"];
-        $query = "UPDATE poems set RATING = " .$roundResult. " WHERE ID = " .$id;
-        echo $query;
+        $query = "UPDATE poems set RATING = " .$roundResult. " WHERE ID = "
+            .$id;
+
         $this->putter->in_query($query);
 
         //After average set to nearest half this function sets image
@@ -245,12 +247,9 @@ LST;
 //This function rounds average to nearest half
     function round_to_half($avg)
     {
-        echo "avg: " .$avg;
 
         $ceil = ceil($avg);
-        echo "ceil: " .$ceil;
         $half = ($ceil - 0.5);
-        echo "half: " .$half;
 
         if($avg >= $half + 0.25) return $ceil;
         else if($avg < $half - 0.25) return floor($avg);
@@ -261,7 +260,8 @@ LST;
     function set_star_image($rating)
     {
 
-        return "<img border='0' src='images/".$rating."stars.jpg' alt='star rating' width='120' height='40'>";
+        return "<img border='0' src='images/".$rating."stars.jpg'
+        alt='star rating' width='120' height='40'>";
     }
 
     function set_clickable_star_image($selected)
@@ -287,56 +287,92 @@ LST;
         if($filledStars == 1)
         {
         $star = 
-'<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
-<input type = "image" name="star" src="images/emptyStar.jpg" alt="Star" width="20" height="40">
-<input type = "image" name="star" src="images/emptyStar.jpg" alt="Star" width="20" height="40">
-<input type = "image" name="star" src="images/emptyStar.jpg" alt="Star" width="20" height="40">
-<input type = "image" name="star" src="images/emptyStar.jpg" alt="Star" width="20" height="40">';
+'<input type = "image" name="star" src="images/filledStar.jpg"
+alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/emptyStar.jpg"
+alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/emptyStar.jpg"
+alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/emptyStar.jpg"
+alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/emptyStar.jpg"
+alt="Star" width="20" height="40">';
         }
         else if($filledStars == 2)
         {
         $star = 
-'<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
-<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
-<input type = "image" name="star" src="images/emptyStar.jpg" alt="Star" width="20" height="40">
-<input type = "image" name="star" src="images/emptyStar.jpg" alt="Star" width="20" height="40">
-<input type = "image" name="star" src="images/emptyStar.jpg" alt="Star" width="20" height="40">';
+'<input type = "image" name="star" src="images/filledStar.jpg"
+alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/filledStar.jpg"
+alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/emptyStar.jpg"
+alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/emptyStar.jpg"
+alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/emptyStar.jpg"
+alt="Star" width="20" height="40">';
         }
         else if($filledStars == 3)
         {
         $star = 
-'<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
-<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
-<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
-<input type = "image" name="star" src="images/emptyStar.jpg" alt="Star" width="20" height="40">
-<input type = "image" name="star" src="images/emptyStar.jpg" alt="Star" width="20" height="40">';
+'<input type = "image" name="star" src="images/filledStar.jpg"
+alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/filledStar.jpg"
+alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/filledStar.jpg"
+alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/emptyStar.jpg"
+alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/emptyStar.jpg"
+alt="Star" width="20" height="40">';
         }
         else if($filledStars == 4)
         {
         $star = 
-'<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
-<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
-<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
-<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
-<input type = "image" name="star" src="images/emptyStar.jpg" alt="Star" width="20" height="40">';
+'<input type = "image" name="star" src="images/filledStar.jpg"
+alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/filledStar.jpg"
+alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/filledStar.jpg"
+alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/filledStar.jpg"
+alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/emptyStar.jpg"
+alt="Star" width="20" height="40">';
         }
         else if($filledStars == 5)
         {
         $star = 
-'<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
-<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
-<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
-<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
-<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">';
+'<input type = "image" name="star" src="images/filledStar.jpg"
+alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/filledStar.jpg"
+alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/filledStar.jpg"
+alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/filledStar.jpg"
+alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/filledStar.jpg"
+alt="Star" width="20" height="40">';
         }
         else
         {
-        $star = '<form name="rating" method="post" action="controllers/star.php">
-<input type = "image" name="star" class="btns" id="rb1" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="1">
-<input type = "image" name="star" class="btns" id="rb2" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="2">
-<input type = "image" name="star" class="btns" id="rb3" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="3">
-<input type = "image" name="star" class="btns" id="rb4" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="4">
-<input type = "image" name="star" class="btns" id="rb5" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="5">
+        $star = '<form name="rating" method="post"
+        action="controllers/star.php">
+<input type = "image" name="star" class="btns" id="rb1"
+src="images/emptyStar.jpg" alt="Star" width="20" height="40"
+onmouseover="btnswap(this.id);" onmouseout(this.id);" value="1">
+<input type = "image" name="star" class="btns" id="rb2"
+src="images/emptyStar.jpg" alt="Star" width="20" height="40"
+onmouseover="btnswap(this.id);" onmouseout(this.id);" value="2">
+<input type = "image" name="star" class="btns" id="rb3"
+src="images/emptyStar.jpg" alt="Star" width="20" height="40"
+onmouseover="btnswap(this.id);" onmouseout(this.id);" value="3">
+<input type = "image" name="star" class="btns" id="rb4"
+src="images/emptyStar.jpg" alt="Star" width="20" height="40"
+onmouseover="btnswap(this.id);" onmouseout(this.id);" value="4">
+<input type = "image" name="star" class="btns" id="rb5"
+src="images/emptyStar.jpg" alt="Star" width="20" height="40"
+onmouseover="btnswap(this.id);" onmouseout(this.id);" value="5">
 <input type="hidden" name="selected" value='.$selected.'>
 </form>';
         }

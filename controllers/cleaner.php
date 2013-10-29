@@ -142,18 +142,6 @@ class cleaner extends controller
 $cleaner = new cleaner();
 $cleaner->upload_poem();
 
-//$str = $cleaner->add_breaks();
-//echo $str;
-/*
-Title: Guy Named Noah
-Author: Louvenia Duncan
-AABBA
-I once knew a guy named Noah
-Mean as the snake called Boa
-Loved him still
-Wasn't God's will
-Sent him back to Samoa
- */
 
 ?>
 

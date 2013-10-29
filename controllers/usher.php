@@ -43,7 +43,8 @@ class usher extends controller
                     .$BASEURL.'index.php?view=landing&c=main&p='.$id.'"/>';
             }
             else{
-                $this->message = "I'm sorry, your peom wasn't Looney enough.<br/>
+                $this->message =
+                    "I'm sorry, your peom wasn't Looney enough.<br/>
     You can try a different poem though!";
                 $this->redirect = '<meta http-equiv="refresh" content="3;url='
                     .$BASEURL.'index.php?view=upload_page&c=uploader"/>';

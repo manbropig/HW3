@@ -31,7 +31,8 @@ include_once($parent_dir . "/models/db_con.php");
 
                 if(!isset($_SESSION['yourRating']))
                 {
-                        $_SESSION['yourRating'] = array($selected => $rating_value);
+                        $_SESSION['yourRating'] =
+                            array($selected => $rating_value);
                 }
                 else
                 {
@@ -41,7 +42,8 @@ include_once($parent_dir . "/models/db_con.php");
                 }
 
                 echo '<meta http-equiv="refresh" content="0;url='
-                    .$BASEURL.'index.php?view=landing&c=main&p='.$selected.'"/>';
+                    .$BASEURL.
+                    'index.php?view=landing&c=main&p='.$selected.'"/>';
         }
         else
         {

@@ -48,7 +48,6 @@ html
 {
     width:200px;
     position:absolute;
-    border:dotted;
 }
 
 #rightcol
@@ -56,7 +55,6 @@ html
     width:200px;
     position:relative;
     left: 215px;
-    border:dotted;
 }
 table.poem_holder
 {
@@ -88,9 +86,6 @@ div.rand
 div.enter
 {
     width:40%;
-    margin-left:30%;
-    margin-right:30%;
-    border:dashed;
 }
 
 .submit
@@ -106,6 +101,9 @@ div.enter
 }
 div.rating_holder
 {
+    position:relative;
+    left:301px;
+    bottom: 150px;
     background-color: white;
     width:120px;
     height:125px;
