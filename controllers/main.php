@@ -83,12 +83,6 @@
         }
     }
 
-    function ratings(id, num)
-    {
-        //session variable save here.
-        //php update_rating(id, num);
-        //$this->data["starImage"] = $this->get_star_rating($poem_ratings);
-    }
 </script>
 <?php
 // Jamie Tahirkheli - 006547398
@@ -190,6 +184,7 @@ LST;
     function setup()
     {
         global $BASEURL;
+
         $upload =
             "<a href="
             .$BASEURL."index.php?view=upload_page&c=uploader>
@@ -202,15 +197,15 @@ LST;
         if(!isset($_GET['p']))
         {
             $poem_details = $this->puller->get_featured_poem();
-            $poem_ratings = $this->connector->rating_out(1);
-            $selected = 1;
+            $selected = $poem_details["id"];
+            $poem_ratings = $this->connector->rating_out($selected);
         }
         else
         {
             $selected = $_GET['p'];
             //select this poem from the db
             //set $poem_details in regards to this poem
-            $poem_details = $this->connector->get_poem($selected);
+            $poem_details = $this->puller->get_poem($selected);
             $poem_ratings = $this->connector->rating_out($selected);
         }
 
@@ -235,6 +230,11 @@ LST;
 
         //This function rounds average to nearest half
         $roundResult = $this->round_to_half($avg);
+
+        $id = $ratings["id"];
+        $query = "UPDATE poems set RATING = " .$roundResult. " WHERE ID = " .$id;
+        echo $query;
+        $this->putter->in_query($query);
 
         //After average set to nearest half this function sets image
         $starImage = $this->set_star_image($roundResult);
@@ -261,51 +261,87 @@ LST;
     function set_star_image($rating)
     {
 
-        $image = "";
-
-//        if($rating == 0.5)
-//            $image = "0.5star";
-//        else if($rating == 1)
-//            $image = "1star";
-//        else if($rating == 1.5)
-//            $image = "1.5stars";
-//        else if($rating == 2)
-//            $image = "2stars";
-//        else if($rating == 2.5)
-//            $image = "2.5stars";
-//        else if($rating == 3)
-//            $image = "3stars";
-//        else if($rating == 3.5)
-//            $image = "3.5stars";
-//        else if($rating == 4)
-//            $image = "4stars";
-//        else if($rating == 4.5)
-//            $image = "4.5stars";
-//        else if($rating == 5)
-//            $image = "5stars";
-//        else
-//            $image = "0stars";
-
         return "<img border='0' src='images/".$rating."stars.jpg' alt='star rating' width='120' height='40'>";
     }
 
     function set_clickable_star_image($selected)
     {
-        return
-            <<<STAR
-            <input type = "image" class="btns" id="rb1" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="1" onclick="ratings($selected, 1);">
-    <input type="hidden" name="choice" width="20" height="40" id="1" value="1">
-<input type = "image" class="btns" id="rb2" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="2" onclick="ratings($selected, 2);">
-    <input type="hidden" name="choice" width="20" height="40" id="2" value="2">
-<input type = "image" class="btns" id="rb3" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="3" onclick="ratings($selected, 3);">
-    <input type="hidden" name="choice" width="20" height="40" id="3" value="3">
-<input type = "image" class="btns" id="rb4" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="4" onclick="ratings($selected, 4);">
-    <input type="hidden" name="choice" width="20" height="40" id="4" value="4">
-<input type = "image" class="btns" id="rb5" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="5" onclick="ratings($selected, 5);">
-    <input type="hidden" name="choice" width="20" height="40" id="5" value="5">
-STAR;
-    }
 
+        if(!isset($_SESSION['yourRating']))
+        {
+                $filledStars = 0;
+        }
+        else
+        {
+                $yourRating = $_SESSION['yourRating'];
+                if(isset($yourRating[$selected]))
+                {
+                        $filledStars = $yourRating[$selected];
+                }
+                else
+                {
+                        $filledStars = 0;
+                }
+        }
+
+        if($filledStars == 1)
+        {
+        $star = 
+'<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/emptyStar.jpg" alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/emptyStar.jpg" alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/emptyStar.jpg" alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/emptyStar.jpg" alt="Star" width="20" height="40">';
+        }
+        else if($filledStars == 2)
+        {
+        $star = 
+'<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/emptyStar.jpg" alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/emptyStar.jpg" alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/emptyStar.jpg" alt="Star" width="20" height="40">';
+        }
+        else if($filledStars == 3)
+        {
+        $star = 
+'<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/emptyStar.jpg" alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/emptyStar.jpg" alt="Star" width="20" height="40">';
+        }
+        else if($filledStars == 4)
+        {
+        $star = 
+'<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/emptyStar.jpg" alt="Star" width="20" height="40">';
+        }
+        else if($filledStars == 5)
+        {
+        $star = 
+'<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">
+<input type = "image" name="star" src="images/filledStar.jpg" alt="Star" width="20" height="40">';
+        }
+        else
+        {
+        $star = '<form name="rating" method="post" action="controllers/star.php">
+<input type = "image" name="star" class="btns" id="rb1" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="1">
+<input type = "image" name="star" class="btns" id="rb2" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="2">
+<input type = "image" name="star" class="btns" id="rb3" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="3">
+<input type = "image" name="star" class="btns" id="rb4" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="4">
+<input type = "image" name="star" class="btns" id="rb5" src="images/emptyStar.jpg" alt="Star" width="20" height="40" onmouseover="btnswap(this.id);" onmouseout(this.id);" value="5">
+<input type="hidden" name="selected" value='.$selected.'>
+</form>';
+        }
+        return $star;
+}
 
 
 

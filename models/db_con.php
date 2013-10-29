@@ -108,7 +108,7 @@ class connector
     }
 
     /**
-     * @param $query
+     * @param $id
      * Executes a query getting the rating result
      */
 
@@ -124,10 +124,9 @@ class connector
         if($results = mysqli_query($this->con, $query))
         {
             $row = mysqli_fetch_array($results);
-            $userRating = $row['USER_RATING'];
-            $myRating = $row['MY_RATING'];
+            $rating = $row['RATING_SUM'];
             $votes = $row['VOTES'];
-            $details = ["userRating" => $userRating, "myRating" => $myRating, "votes" => $votes];
+            $details = ["userRating" => $rating, "votes" => $votes, "id" => $id];
         }
         else
         {
@@ -136,6 +135,35 @@ class connector
         }
         return $details;
     }
+
+    /**
+     * 
+     * Executes a query getting the feature poem id
+     */
+
+        function get_featured()
+        {
+
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $query = "SELECT ID FROM POEMS WHERE FEATURED = 1";
+
+        if($results = mysqli_query($this->con, $query))
+        {
+            $row = mysqli_fetch_array($results);
+            $id = $row["ID"];
+                echo "poem rating UPDATED";
+        }
+        else
+        {
+                echo "poem rating NOT UPDATED";
+            $id = 0;
+        }
+        return $id;
+        }
 
     /**
 
@@ -150,12 +178,12 @@ class connector
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-        $rating_info = rating_out($id);
+        $rating_info = $this->rating_out($id);
 
         $added_rating = $rating_info["userRating"] + $num;
         $added_votes = $rating_info["votes"] + 1;
 
-        $updateQuery = "UPDATE poems SET USER_RATING = \"$added_rating\", VOTES = \"$added_votes\" WHERE ID = \"$id\"";
+        $updateQuery = "UPDATE poems SET RATING_SUM = \"$added_rating\", VOTES = \"$added_votes\" WHERE ID = \"$id\"";
 
         if(mysqli_query($this->con, $updateQuery))
         {

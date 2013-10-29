@@ -172,7 +172,8 @@ class data_puller extends connector
             $title = $row['TITLE'];
             $author = $row['AUTHOR'];
             $poem = $row['POEM'];
-            $details = ["title" => $title, "author" => $author, "poem" => $poem];
+            $id = $row['ID'];
+            $details = ["title" => $title, "author" => $author, "poem" => $poem, "id" => $id];
         }
         else
         {
