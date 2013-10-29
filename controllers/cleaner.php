@@ -140,7 +140,6 @@ class cleaner extends controller
 $cleaner = new cleaner();
 $cleaner->upload_poem();
 
-
 ?>
 
 

@@ -378,31 +378,10 @@ onmouseover="btnswap(this.id);" onmouseout(this.id);" value="5">
         }
         return $star;
 }
-
-
-
-
 }
-//$connector = new connector();
-//$connector->choose_db("LIMERICKS");
-//$putter = new data_putter();
+
 
 $ctrl = new controller();
-
-//$title = "My Dog";
-//$author = "Jamie";
-//$poem =
-//"My dog is cool<br/>He knows how to drool<br/>
-//He runs all around<br/>And all over town<br/>
-//And then takes a dip in a pool";
-//
-//$sql = "INSERT INTO POEMS VALUES(0, \"$title\", \"$author\",\"$poem\", 0, 0, 0)";
-//$ctrl->connector->in_query($sql);//use model class to insert into DB
-
 $ctrl->setup();
-
-
-
-
 ?>
 

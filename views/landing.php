@@ -38,12 +38,6 @@ class landing_view extends view
         $this->data["rand_link"] = $ctrl->data["rand"];
         $this->data["starImage"] = $ctrl->data["starImage"];
         $this->data["clickableStarImage"] = $ctrl->data["clickableStarImage"];
-//        $this->title = '<title>Poem Confirmation</title>';
-//        $this->data['title'] = $this->title;
-//        $this->data['css'] =  '<link rel="stylesheet" type="text/css" href="/HW3/css/limerick_styles.css"/>';
-//        $this->data['recent'] = $this->recent;
-//        $this->data['top'] = $this->top;
-//        $this->data['featured'];
     }
 }
 
@@ -83,7 +77,6 @@ $landing = new landing_view();
     Your Rating: <br>
     <?php echo $landing->data["clickableStarImage"];?>
 </div>
-
     <?php
         echo $landing->data["poem_lists"];
     ?>

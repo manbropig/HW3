@@ -9,7 +9,18 @@ if(session_status() == PHP_SESSION_NONE)
 $parent_dir = dirname(__FILE__) . '/..';
 include_once($parent_dir . "/config/config.php");
 include_once($parent_dir . "/models/db_con.php");
+include_once($parent_dir . "/controllers/main.php");
 
+class star extends controller
+{
+    function __construct()
+    {
+        parent::__construct();
+        $this->setup();
+    }
+
+    public function setup()
+    {
         global $BASEURL;
 
         if(isset($_POST['star']))
@@ -47,5 +58,7 @@ include_once($parent_dir . "/models/db_con.php");
         {
                 echo "this isn't working";
         }
-
+    }
+}
+$ctrl = new star();
 ?>
