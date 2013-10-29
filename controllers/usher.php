@@ -35,9 +35,10 @@ class usher extends controller
 
             if($status == "true")
             {
-                $id = $_GET['id'];
+                $id = $_GET['p'];
                 $this->message = "Congratulations!<br/>
      Your poem has been uploaded to Looney Limericks.";
+                echo $id;
                 $this->redirect = '<meta http-equiv="refresh" content="3;url='
                     .$BASEURL.'index.php?view=landing&c=main&p='.$id.'"/>';
             }

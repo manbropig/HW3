@@ -37,13 +37,16 @@ class data_putter extends connector
         $id = parent::get_rows($table_name) - 1;
         $id++;
 
-        $query = "INSERT INTO POEMS VALUES(0,\"$title\", \"$author\", \"$poem\", 0,0,0,FALSE, null )";
+        $query =
+            "INSERT INTO POEMS VALUES(0,\"$title\",
+            \"$author\", \"$poem\", 0,0,0,FALSE, null )";
         //echo $query."\n";
 
         $this->in_query($query);
-        $redirect = '<meta http-equiv="refresh" content="0;url='
+        echo $id;
+        $redirect = '<meta http-equiv="refresh" content="3;url='
             .$BASEURL.
-            'index.php?view=confirmation&c=usher&conf=true&p='.$id.'"/>';
+            "index.php?view=confirmation&c=usher&conf=true&p=$id\"/>";
 
         return $redirect;
     }
@@ -60,7 +63,8 @@ class data_putter extends connector
     {
         global $table_name;
         $time = time();
-        $query = "UPDATE $table_name SET FEATURED=TRUE, TIME=$time WHERE ID=$id";
+        $query =
+            "UPDATE $table_name SET FEATURED=TRUE, TIME=$time WHERE ID=$id";
         $this->in_query($query);
     }
 }
