@@ -13,3 +13,8 @@ Then navigate to localhost/HW3/ in your browser.
 
 Thanks,
 Jamie and Zohaib
+
+
+Jamie Tahirkheli - 006547398
+Zohaib Khan - 007673133
+CS 174
