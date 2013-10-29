@@ -18,12 +18,10 @@ include_once($parent_dir . "/models/db_con.php");
                 $rating_value = $_POST['star'];
                 if(!isset($_POST['selected']))
                 {
-                        echo "selected not set";
                         $selected = $connection->get_featured();
                 }
                 else
                 {
-                        echo "selected set";
                         $selected = $_POST['selected'];
                 }
 
