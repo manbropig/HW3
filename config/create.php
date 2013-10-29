@@ -93,13 +93,14 @@ for($p = 0; $p < sizeof($poems); $p++)
     $query = "INSERT INTO POEMS VALUES(0,\"$title\", \"$author\", \"$poem\", 0,0,0,FALSE, null )";
     if($p == 7)
         $query = "INSERT INTO POEMS VALUES(0,\"$title\", \"$author\", \"$poem\", 0,0,0,TRUE, $time )";
+    else if($p == 9)
+        $query = "INSERT INTO POEMS VALUES(0,\"$title\", \"$author\", \"$poem\", 0,0,0,TRUE, null )";
+    else if($p == 9)
     $putter->in_query($query);
 }
 
 
 $connector->close_db();
-
-echo time();
 
 ?>
 
