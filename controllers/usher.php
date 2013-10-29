@@ -38,7 +38,6 @@ class usher extends controller
                 $id = $_GET['p'];
                 $this->message = "Congratulations!<br/>
      Your poem has been uploaded to Looney Limericks.";
-                echo $id;
                 $this->redirect = '<meta http-equiv="refresh" content="3;url='
                     .$BASEURL.'index.php?view=landing&c=main&p='.$id.'"/>';
             }
@@ -57,19 +56,6 @@ class usher extends controller
 $usher = new usher();
 
 
-
-//$str = $cleaner->add_breaks();
-//echo $str;
-/*
-Title: Guy Named Noah
-Author: Louvenia Duncan
-AABBA
-I once knew a guy named Noah
-Mean as the snake called Boa
-Loved him still
-Wasn't God's will
-Sent him back to Samoa
- */
 
 ?>
 

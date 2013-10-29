@@ -31,12 +31,13 @@ class landing_view extends view
         $this->data['css'] =  parent::css;
         $this->data['recent'] = $this->recent;
         $this->data['top'] = $this->top;
-        $this->data['featured'];
         $this->data["upload_link"] = $ctrl->data["upload_link"];
         $this->data["author"] = $ctrl->data["author"];
         $this->data["poem"] = $ctrl->data["poem"];
         $this->data["poem_lists"] = $ctrl->data["poem_lists"];
         $this->data["rand_link"] = $ctrl->data["rand"];
+        $this->data["starImage"] = $ctrl->data["starImage"];
+        $this->data["clickableStarImage"] = $ctrl->data["clickableStarImage"];
 //        $this->title = '<title>Poem Confirmation</title>';
 //        $this->data['title'] = $this->title;
 //        $this->data['css'] =  '<link rel="stylesheet" type="text/css" href="/HW3/css/limerick_styles.css"/>';
@@ -77,10 +78,10 @@ $landing = new landing_view();
 </table>
 <div class="rating_holder">
     Average Rating: <br>
-    <?php echo $ctrl->data["starImage"];?>
+    <?php echo $landing->data["starImage"];?>
     <br>
     Your Rating: <br>
-    <?php echo $ctrl->data["clickableStarImage"];?>
+    <?php echo $landing->data["clickableStarImage"];?>
 </div>
 
     <?php

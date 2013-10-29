@@ -28,7 +28,7 @@ class data_putter extends connector
         $title = $details['title'];
         $author = $details['author'];
         $poem = $details['poem'];
-        $id = parent::get_rows($table_name) - 1;
+        $id = parent::get_rows($table_name);
         $id++;
 
         $query =
@@ -37,7 +37,7 @@ class data_putter extends connector
 
         $this->in_query($query);
 
-        $redirect = '<meta http-equiv="refresh" content="3;url='
+        $redirect = '<meta http-equiv="refresh" content="0;url='
             .$BASEURL.
             "index.php?view=confirmation&c=usher&conf=true&p=$id\"/>";
 

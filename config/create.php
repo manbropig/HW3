@@ -50,7 +50,7 @@ and know you just ate<br/>
 before its too late<br/>
 a marsupial suit",
 "No bro no<br/>
-Dude... no<br/>
+Dude, just... no<br/>
 chyah<br/>
 chyah<br/>
 but no",
@@ -58,16 +58,16 @@ but no",
 noob tube<br/>
 rump<br/>
 jump<br/>
-ube lube",
+ube gube",
 "yabadaba<br/>
 abazaba<br/>
 the arsonist<br/>
-had oddly shaped feet<br/>
+had a burning wrist<br/>
 yaba",
 "aba zaba<br/>
-yaba daba<br/>
+Franklin Zapa<br/>
 gabagoo<br/>
-boogyboo<br/>
+whoopdidoo<br/>
 yabadaba",
 "Hungry hippo<br/>
 Do the limbo<br/>

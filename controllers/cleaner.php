@@ -51,7 +51,6 @@ class cleaner extends controller
         $word = $words[count($words) - 1];
         $last = preg_replace('/[^a-z]+/i', '', $word);//remove punctuation
         $last = trim(preg_replace('/\s\s+/', ' ', $last));
-        echo $last."<br/>";
         return $last;
     }
 
@@ -65,7 +64,7 @@ class cleaner extends controller
     function check_rhyme($word1, $word2)
     {
         $check = levenshtein(soundex($word1),soundex($word2));
-        if($check <= 4)
+        if($check <= 3)
             return true;
         else
             return false;
@@ -103,7 +102,6 @@ class cleaner extends controller
         ($this->check_rhyme($this->get_last_word($lines[2]),
             $this->get_last_word($lines[3]))))
         {
-            echo "Poem matches rhyme scheme<br/>";
             return true;
         }
         else
